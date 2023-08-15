@@ -10,17 +10,17 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/firstRowText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="" />
-
         <Button
             android:id="@+id/firstRowButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Record" />
+
+        <TextView
+            android:id="@+id/firstRowText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="" />
     </LinearLayout>
 
     <!-- Second Row -->
@@ -29,17 +29,17 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/secondRowText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="" />
-
         <Button
             android:id="@+id/secondRowButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Record" />
+
+        <TextView
+            android:id="@+id/secondRowText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="" />
     </LinearLayout>
 
     <!-- Third Row -->
@@ -48,17 +48,17 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/thirdRowText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="" />
-
         <Button
             android:id="@+id/thirdRowButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Compare" />
+
+        <TextView
+            android:id="@+id/thirdRowText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="" />
     </LinearLayout>
 
 </LinearLayout>
