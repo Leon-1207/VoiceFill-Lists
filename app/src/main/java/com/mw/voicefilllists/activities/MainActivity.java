@@ -1,6 +1,7 @@
-package com.mw.voicefilllists;
+package com.mw.voicefilllists.activities;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
@@ -8,6 +9,8 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.mw.voicefilllists.R;
 
 public class MainActivity extends AppCompatActivity {
     private final Handler handler = new Handler();
@@ -48,7 +51,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void onSettingsButtonLongClicked() {
         // Handle long click action
-        // TODO open activity
+        // Switch to the settings activity
+        Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+        startActivity(intent);
     }
 
     private void onSettingsButtonClicked() {

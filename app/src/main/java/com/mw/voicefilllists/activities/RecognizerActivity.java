@@ -1,4 +1,4 @@
-package com.mw.voicefilllists;
+package com.mw.voicefilllists.activities;
 
 import static android.widget.Toast.makeText;
 

@@ -10,4 +10,8 @@
     <string name="phone_caption">To try phonetic recognition say anything.</string>
     <string name="settings_button">Einstellungen</string>
     <string name="settings_button_short_click_toast">Gerdrückt halten um Einstellungen zu öffnen</string>
+    <string name="settings_page_switch_to_my_values">Werte ansehen und bearbeiten</string>
+    <string name="back">Zurück</string>
+    <string name="settings_page_title">Einstellungen</string>
+    <string name="my_values_page_title">Meine Werte</string>
 </resources>
