@@ -5,31 +5,34 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical"
-    tools:context=".MainActivity"
-    >
+    tools:context=".MainActivity">
 
     <!-- Top Bar -->
-    <!-- <androidx.appcompat.widget.Toolbar
-         android:id="@+id/topBar"
-         android:layout_width="match_parent"
-         android:layout_height="?attr/actionBarSize"
-         android:background="?attr/colorPrimary" /> -->
 
-    <!-- Settings Button -->
-    <ImageButton
-        android:id="@+id/settingsButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_settings"
-        android:contentDescription="@string/settings_button"
-        />
-    <!-- android:layout_gravity="end"
-     android:layout_marginTop="8dp"
-     android:layout_marginEnd="16dp"
-     android:layout_marginRight="16dp"
-     android:background="?attr/selectableItemBackgroundBorderless"
-     android:src="@drawable/ic_settings" -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
+        <!-- Add your app's title or other customization here if needed -->
+
+        <!-- Settings Button -->
+        <ImageButton
+            android:id="@+id/settingsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:background="@android:color/transparent"
+            android:paddingHorizontal="8dp"
+            android:layout_marginEnd="4dp"
+            android:contentDescription="@string/settings_button"
+            android:src="@drawable/ic_settings" />
+
+    </androidx.appcompat.widget.Toolbar>
 
     <!-- Rest of your content -->
 
