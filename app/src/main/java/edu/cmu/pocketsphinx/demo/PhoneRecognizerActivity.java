@@ -30,6 +30,8 @@ public class PhoneRecognizerActivity extends Activity implements
 
     private static final String LOG_TAG = "PhoneRecognizerActivity";
     private static final String PHONE_SEARCH = "phones";
+    private static final String KWS_SEARCH = "weakup";
+    private static final String KEYPHRASE = "Fareed";
 
     /* Used to handle permission request */
     private static final int PERMISSIONS_REQUEST_RECORD_AUDIO = 1;
@@ -119,6 +121,7 @@ public class PhoneRecognizerActivity extends Activity implements
             return;
 
         String text = hypothesis.getHypstr();
+        makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
         // TODO
     }
 
@@ -147,9 +150,15 @@ public class PhoneRecognizerActivity extends Activity implements
     private void setupRecognizer(File assetsDir) throws IOException {
         // The recognizer can be configured to perform multiple searches
         // of different kind and switch between them
+        File dictionary = new File(assetsDir, "cmudict-en-us.dict");
+        LanguageModelModifier languageModelModifier = new LanguageModelModifier(dictionary);
+        System.out.println("1 " + languageModelModifier.isWordInDictionary("Fareed"));
+        //languageModelModifier.addWordToDictionary("Fareed", "F AH N IY R TH");
+        //System.out.println("2 " + languageModelModifier.isWordInDictionary("Fareed"));
+
         recognizer = SpeechRecognizerSetup.defaultSetup()
                 .setAcousticModel(new File(assetsDir, "en-us-ptm"))
-                .setDictionary(new File(assetsDir, "cmudict-en-us.dict"))
+                .setDictionary(dictionary)
                 // .setRawLogDir(assetsDir) // To disable logging of raw audio comment out this call (takes a lot of space on the device)
                 .getRecognizer();
         recognizer.addListener(this);
@@ -159,8 +168,25 @@ public class PhoneRecognizerActivity extends Activity implements
          */
 
         // Phonetic search
+        /*
         File phoneticModel = new File(assetsDir, "en-phone.dmp");
         recognizer.addAllphoneSearch(PHONE_SEARCH, phoneticModel);
+
+        recognizer.addKeyphraseSearch(KWS_SEARCH, KEYPHRASE);
+                */
+
+        String dynamicGrammar = "#JSGF V1.0;\n" +
+                "grammar dynamic;\n" +
+                "public <greeting> = (HELLO | HI) FAREED ;\n" +
+                "public <fareed> = /F AH N IY R TH/ ;\n" +
+                "public <command> = <greeting> | <fareed> ;";
+
+        dynamicGrammar = "#JSGF V1.0;\n" +
+                "grammar dynamic;\n" +
+                "public <greeting> = hello Fareed ;\n" +
+                "public <command> = <greeting> ;";
+
+        recognizer.addGrammarSearch("grammar", dynamicGrammar);
     }
 
     @Override
@@ -174,7 +200,7 @@ public class PhoneRecognizerActivity extends Activity implements
     }
 
     public void startListening() {
-        recognizer.startListening(PHONE_SEARCH);
+        recognizer.startListening("grammar");
     }
 
     public void stopListening() {
