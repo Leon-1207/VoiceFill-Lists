@@ -2,19 +2,20 @@ package com.mw.voicefilllists;
 
 public class ValueGroupEntry {
     private final int uid;
-    private String label, phoneticTranscription;
+    private String label;
+    private String[] phoneticTranscription;
 
-    public ValueGroupEntry(int uid, String label, String phoneticTranscription) {
+    public ValueGroupEntry(int uid, String label, String[] phoneticTranscription) {
         this.uid = uid;
         this.label = label;
         this.phoneticTranscription = phoneticTranscription;
     }
 
-    public String getPhoneticTranscription() {
+    public String[] getPhoneticTranscription() {
         return phoneticTranscription;
     }
 
-    public void setPhoneticTranscription(String phoneticTranscription) {
+    public void setPhoneticTranscription(String[] phoneticTranscription) {
         this.phoneticTranscription = phoneticTranscription;
     }
 

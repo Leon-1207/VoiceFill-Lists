@@ -17,6 +17,12 @@
         android:importantForAutofill="no"
         android:inputType="text" />
 
+    <LinearLayout
+        android:id="@+id/phoneticTranscriptionInputContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+
     <include layout="@layout/bottom_button_line" />
 
 </LinearLayout>

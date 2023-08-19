@@ -112,11 +112,6 @@ public class RecognizerActivity extends Activity implements
      */
     @Override
     public void onPartialResult(Hypothesis hypothesis) {
-        if (hypothesis == null)
-            return;
-
-        String text = hypothesis.getHypstr();
-        makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -124,10 +119,7 @@ public class RecognizerActivity extends Activity implements
      */
     @Override
     public void onResult(Hypothesis hypothesis) {
-        if (hypothesis != null) {
-            String text = hypothesis.getHypstr();
-            makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
-        }
+
     }
 
     @Override
@@ -194,5 +186,9 @@ public class RecognizerActivity extends Activity implements
 
     public void stopListening() {
         recognizer.stop();
+    }
+
+    public SpeechRecognizer getRecognizer() {
+        return recognizer;
     }
 }

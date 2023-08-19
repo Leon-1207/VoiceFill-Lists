@@ -18,4 +18,6 @@
     <string name="string_cancel">Abbrechen</string>
     <string name="save">Speichern</string>
     <string name="name">Name</string>
+    <string name="start_record">Aufnahme starten</string>
+    <string name="stop_record">Speichern</string>
 </resources>

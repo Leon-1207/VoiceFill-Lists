@@ -17,7 +17,7 @@ public interface ValueGroupEntryDAO {
     List<ValueGroupEntryDatabaseEntry> loadAllByIds(int[] userIds);
 
     @Insert
-    void insertAll(ValueGroupEntryDatabaseEntry... valueGroupEntries);
+    void insert(ValueGroupEntryDatabaseEntry valueGroupEntry);
 
     @Delete
     int delete(ValueGroupEntryDatabaseEntry valueGroupEntry);
