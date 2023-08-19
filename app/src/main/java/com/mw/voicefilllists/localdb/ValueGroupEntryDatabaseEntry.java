@@ -1,0 +1,17 @@
+package com.mw.voicefilllists.localdb;
+
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
+public class ValueGroupEntryDatabaseEntry {
+    @PrimaryKey
+    public int uid;
+
+    @ColumnInfo(name = "label")
+    public String label;
+
+    @ColumnInfo(name = "phonetic_transcription")
+    public String phoneticTranscription;
+}
