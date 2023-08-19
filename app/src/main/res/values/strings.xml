@@ -14,4 +14,8 @@
     <string name="back">Zurück</string>
     <string name="settings_page_title">Einstellungen</string>
     <string name="my_values_page_title">Meine Werte</string>
+    <string name="new_value_group_entry">Neuer Wert</string>
+    <string name="string_cancel">Abbrechen</string>
+    <string name="save">Speichern</string>
+    <string name="name">Name</string>
 </resources>

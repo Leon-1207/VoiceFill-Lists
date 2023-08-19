@@ -27,5 +27,9 @@
             android:name=".activities.MyValuesActivity"
             android:label="MyValues"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities.CreateValueGroupEntryActivity"
+            android:label="MyValues"
+            android:theme="@style/AppTheme" />
     </application>
 </manifest>

@@ -9,6 +9,7 @@ import com.mw.voicefilllists.R;
 public class ActivityToolbarHelper {
     public static void setupToolbar(Activity activity, int pageTitle) {
         View toolbar = activity.findViewById(R.id.toolbar);
+        assert toolbar != null;
 
         View backButton = toolbar.findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> activity.onBackPressed());
