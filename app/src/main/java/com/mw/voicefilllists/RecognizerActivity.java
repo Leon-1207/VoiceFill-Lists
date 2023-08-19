@@ -1,13 +1,12 @@
 package com.mw.voicefilllists;
 
+import static android.widget.Toast.makeText;
+
 import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -20,8 +19,6 @@ import edu.cmu.pocketsphinx.Hypothesis;
 import edu.cmu.pocketsphinx.RecognitionListener;
 import edu.cmu.pocketsphinx.SpeechRecognizer;
 import edu.cmu.pocketsphinx.SpeechRecognizerSetup;
-
-import static android.widget.Toast.makeText;
 
 public class RecognizerActivity extends Activity implements
         RecognitionListener {
@@ -41,9 +38,10 @@ public class RecognizerActivity extends Activity implements
         super.onCreate(state);
 
         // Check if user has given permission to record audio
-        int permissionCheck = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.RECORD_AUDIO);
+        int permissionCheck = this.checkSelfPermission(Manifest.permission.RECORD_AUDIO);
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, PERMISSIONS_REQUEST_RECORD_AUDIO);
+            String[] permissions = new String[]{Manifest.permission.RECORD_AUDIO};
+            this.requestPermissions(permissions, PERMISSIONS_REQUEST_RECORD_AUDIO);
             return;
         }
         // Recognizer initialization is a time-consuming and it involves IO,
@@ -83,8 +81,7 @@ public class RecognizerActivity extends Activity implements
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         if (requestCode == PERMISSIONS_REQUEST_RECORD_AUDIO) {

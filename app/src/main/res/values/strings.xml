@@ -9,4 +9,5 @@
     <string name="forecast_caption">To try recognition of a weather forecast like \"sunny spells on Wednesday\".</string>
     <string name="phone_caption">To try phonetic recognition say anything.</string>
     <string name="settings_button">Einstellungen</string>
+    <string name="settings_button_short_click_toast">Gerdrückt halten um Einstellungen zu öffnen</string>
 </resources>
