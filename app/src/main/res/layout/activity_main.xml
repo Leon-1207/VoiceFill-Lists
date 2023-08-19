@@ -1,64 +1,33 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    tools:context=".MainActivity">
 
-    <!-- First Row -->
-    <LinearLayout
+    <!-- Top Bar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/topBar"
         android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <!-- Settings Button -->
+    <ImageButton
+        android:id="@+id/settingsButton"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_gravity="end"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_settings"
+        android:contentDescription="@string/settings_button"
+        android:layout_marginRight="16dp" />
 
-        <Button
-            android:id="@+id/firstRowButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Record" />
-
-        <TextView
-            android:id="@+id/firstRowText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="" />
-    </LinearLayout>
-
-    <!-- Second Row -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/secondRowButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Record" />
-
-        <TextView
-            android:id="@+id/secondRowText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="" />
-    </LinearLayout>
-
-    <!-- Third Row -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Likeliness:"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/thirdRowText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="" />
-    </LinearLayout>
+    <!-- Rest of your content -->
 
 </LinearLayout>
