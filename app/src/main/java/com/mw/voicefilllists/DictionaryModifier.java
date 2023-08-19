@@ -1,4 +1,4 @@
-package edu.cmu.pocketsphinx.demo;
+package com.mw.voicefilllists;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -9,10 +9,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LanguageModelModifier {
+public class DictionaryModifier {
     private File dictionaryFile;
 
-    public LanguageModelModifier(File inputDictionaryFile) {
+    public DictionaryModifier(File inputDictionaryFile) {
         dictionaryFile = inputDictionaryFile;
     }
 
