@@ -7,7 +7,7 @@ import androidx.annotation.Nullable;
 
 import com.mw.voicefilllists.R;
 import com.mw.voicefilllists.localdb.AppDatabase;
-import com.mw.voicefilllists.localdb.PhonemeValueDatabaseEntry;
+import com.mw.voicefilllists.localdb.entities.PhonemeValueDatabaseEntry;
 
 public class CreatePhonemeValueActivity extends PhonemeValueActivity {
     @Override
@@ -29,7 +29,7 @@ public class CreatePhonemeValueActivity extends PhonemeValueActivity {
 
                 dbEntry.label = getEntryNameInputValue();
                 dbEntry.phoneticTranscription = getAllPhoneticTranscriptionsAsCommaSpreadString();
-                db.valueGroupEntryDao().insert(dbEntry);
+                db.phonemeValueDao().insert(dbEntry);
                 // done
 
                 // close activity

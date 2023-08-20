@@ -1,10 +1,10 @@
-package com.mw.voicefilllists.localdb;
+package com.mw.voicefilllists.localdb.entities;
 
 
 import androidx.room.Entity;
 
 @Entity(primaryKeys = {"groupId", "valueId"})
 public class ValueGroupAndPhonemeValueDatabaseEntry {
-    public long groupId;
-    public long valueId;
+    public int groupId;
+    public int valueId;
 }

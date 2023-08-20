@@ -1,10 +1,12 @@
-package com.mw.voicefilllists.localdb;
+package com.mw.voicefilllists.localdb.dao;
 
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
+
+import com.mw.voicefilllists.localdb.entities.PhonemeValueDatabaseEntry;
 
 import java.util.List;
 
