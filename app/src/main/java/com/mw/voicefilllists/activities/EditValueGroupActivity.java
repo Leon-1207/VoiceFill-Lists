@@ -10,6 +10,7 @@ import com.mw.voicefilllists.R;
 import com.mw.voicefilllists.localdb.AppDatabase;
 import com.mw.voicefilllists.localdb.DataConverter;
 import com.mw.voicefilllists.localdb.entities.PhonemeValueDatabaseEntry;
+import com.mw.voicefilllists.localdb.entities.ValueGroupAndPhonemeValueDatabaseEntry;
 import com.mw.voicefilllists.localdb.entities.ValueGroupDatabaseEntry;
 import com.mw.voicefilllists.model.PhonemeValue;
 
@@ -73,10 +74,25 @@ public class EditValueGroupActivity extends ValueGroupActivity {
                 AppDatabase database = AppDatabase.getInstance(activity);
 
                 // update name
-                // TODO
+                ValueGroupDatabaseEntry databaseEntry = new ValueGroupDatabaseEntry();
+                databaseEntry.name = activity.getNameInputValue();
+                databaseEntry.groupId = activity.activityGroupId;
+                database.valueGroupDAO().update(databaseEntry);
 
                 // update connections to PhonemeValues in DB
-                // TODO
+                // delete removed connections
+                int[] selectedPhonemeValueIds = activity.getSelectedPhonemeValueIds();
+                database.valueGroupAndPhonemeValueDAO()
+                        .deleteIfValueIdIsNotInList(activity.activityGroupId, selectedPhonemeValueIds);
+                // add new connections
+                List<ValueGroupAndPhonemeValueDatabaseEntry> selectedConnections = new ArrayList<>();
+                for (int phonemeValueId : selectedPhonemeValueIds) {
+                    ValueGroupAndPhonemeValueDatabaseEntry newConnection = new ValueGroupAndPhonemeValueDatabaseEntry();
+                    newConnection.valueId = phonemeValueId;
+                    newConnection.groupId = activity.activityGroupId;
+                    selectedConnections.add(newConnection);
+                }
+                database.valueGroupAndPhonemeValueDAO().insertAll(selectedConnections);
 
                 activity.finish();
             }

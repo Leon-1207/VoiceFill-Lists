@@ -20,6 +20,9 @@ public interface ValueGroupAndPhonemeValueDAO {
     @Query("DELETE FROM ValueGroupAndPhonemeValueDatabaseEntry WHERE groupId = :groupId AND valueId = :valueId")
     void deleteByGroupIdAndValueId(int groupId, int valueId);
 
+    @Query("DELETE FROM ValueGroupAndPhonemeValueDatabaseEntry WHERE groupId = :groupId AND valueId not in (:valueIds)")
+    void deleteIfValueIdIsNotInList(int groupId, int[] valueIds);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insert(ValueGroupAndPhonemeValueDatabaseEntry valueGroupAndPhonemeValueDatabaseEntry);
 

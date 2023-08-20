@@ -5,7 +5,9 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
+import com.mw.voicefilllists.localdb.entities.PhonemeValueDatabaseEntry;
 import com.mw.voicefilllists.localdb.entities.ValueGroupDatabaseEntry;
 
 import java.util.List;
@@ -26,4 +28,7 @@ public interface ValueGroupDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insert(ValueGroupDatabaseEntry valueGroupDatabaseEntry);
+
+    @Update
+    int update(ValueGroupDatabaseEntry valueGroupDatabaseEntry);
 }

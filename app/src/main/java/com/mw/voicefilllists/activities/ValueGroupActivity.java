@@ -192,6 +192,15 @@ public abstract class ValueGroupActivity extends AppCompatActivity {
         return valuesInGroup;
     }
 
+    public int[] getSelectedPhonemeValueIds() {
+        int count = valuesInGroup.size();
+        int[] result = new int[count];
+        for (int i = 0; i < count; i++) {
+            result[i] = valuesInGroup.get(0).getId();
+        }
+        return result;
+    }
+
     private void loadPossibleValues() {
         onStartLoadingValuesOutOfGroup();
         ValueGroupActivity activity = this;
