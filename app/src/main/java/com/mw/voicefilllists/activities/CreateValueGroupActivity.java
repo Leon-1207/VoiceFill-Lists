@@ -24,7 +24,7 @@ public class CreateValueGroupActivity extends ValueGroupActivity {
             @Override
             public void run() {
                 AppDatabase database = AppDatabase.getInstance(activity);
-                database.valueGroupDAO().
+                // TODO
                 activity.finish();
             }
         }).start();
