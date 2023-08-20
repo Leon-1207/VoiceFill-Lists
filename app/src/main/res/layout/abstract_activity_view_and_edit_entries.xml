@@ -10,15 +10,15 @@
     <include layout="@layout/toolbar_layout" />
 
     <Button
-        android:id="@+id/createValueGroupEntryButton"
+        android:id="@+id/createNewEntryButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/new_value_group_entry" />
+        android:text="@string/todo" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:id="@+id/valueGroupEntries" />
+        android:id="@+id/entryList" />
 
 </LinearLayout>

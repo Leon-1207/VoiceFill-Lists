@@ -20,6 +20,8 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void createSettingButtons() {
+        addButton(R.string.settings_page_switch_to_my_lists, MyListsActivity.class);
+        addButton(R.string.settings_page_switch_to_my_value_groups, MyValueGroupsActivity.class);
         addButton(R.string.settings_page_switch_to_my_values, MyValuesActivity.class);
     }
 

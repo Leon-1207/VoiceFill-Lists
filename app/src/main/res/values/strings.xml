@@ -20,4 +20,11 @@
     <string name="name">Name</string>
     <string name="start_record">Aufnahme starten</string>
     <string name="stop_record">Speichern</string>
+    <string name="todo">TODO</string>
+    <string name="my_value_groups_page_title">Meine Wertegruppen</string>
+    <string name="new_value_group">Neue Wertegruppe</string>
+    <string name="settings_page_switch_to_my_value_groups">Wetegruppen ansehen und bearbeiten</string>
+    <string name="new_list">Neue Liste</string>
+    <string name="settings_page_switch_to_my_lists">Meine Listen ansehen und bearbeiten</string>
+    <string name="my_lists">Meine Listen</string>
 </resources>
