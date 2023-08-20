@@ -1,4 +1,4 @@
-package com.mw.voicefilllists;
+package com.mw.voicefilllists.model;
 
 public class PhonemeValue {
     private final int id;

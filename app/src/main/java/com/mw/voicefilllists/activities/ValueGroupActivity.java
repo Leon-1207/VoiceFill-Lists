@@ -12,12 +12,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.mw.voicefilllists.R;
-import com.mw.voicefilllists.PhonemeValue;
+import com.mw.voicefilllists.localdb.AppDatabase;
+import com.mw.voicefilllists.model.PhonemeValue;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class ValueGroupActivity extends AppCompatActivity {
+
     protected ArrayList<PhonemeValue> valuesInGroup, possibleValues;
     private boolean loadingValuesInGroup = true;
 
@@ -83,7 +85,7 @@ public abstract class ValueGroupActivity extends AppCompatActivity {
         return !valuesInGroup.isEmpty();
     }
 
-    private void updateSaveButtonState() {
+    protected void updateSaveButtonState() {
         Button saveButton = findViewById(R.id.bottomButtonLine).findViewById(R.id.bottomSaveButton);
         boolean enable = (!loadingValuesInGroup) && isNameValid() && isValuesInGroupValid();
         saveButton.setEnabled(enable);
@@ -93,13 +95,12 @@ public abstract class ValueGroupActivity extends AppCompatActivity {
 
     protected abstract void loadValuesInGroup();
 
-    protected abstract void loadPossibleValues();
-
     protected void onLoadedValuesInGroup(List<PhonemeValue> entries) {
         while (!valuesInGroup.isEmpty()) valuesInGroup.remove(0);
         valuesInGroup.addAll(entries);
         fillContainerWithValueGroupEntries(getValuesInGroupContainer(), entries);
         onEndLoadingValuesInGroup();
+        loadPossibleValues();
     }
 
     protected void onLoadedValuesOutOfGroup(List<PhonemeValue> entries) {
@@ -110,6 +111,7 @@ public abstract class ValueGroupActivity extends AppCompatActivity {
     }
 
     private void fillContainerWithValueGroupEntries(LinearLayout container, List<PhonemeValue> entries) {
+        container.removeAllViews();
         for (PhonemeValue phonemeValue : entries) {
             ValueButton valueButton = new ValueButton(phonemeValue);
             View viewForValue = valueButton.inflate(this);
@@ -184,6 +186,34 @@ public abstract class ValueGroupActivity extends AppCompatActivity {
         }
         loadPossibleValues();
         updateSaveButtonState();
+    }
+
+    public ArrayList<PhonemeValue> getValuesInGroup() {
+        return valuesInGroup;
+    }
+
+    private void loadPossibleValues() {
+        onStartLoadingValuesOutOfGroup();
+        ValueGroupActivity activity = this;
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                AppDatabase database = AppDatabase.getInstance(activity);
+                List<PhonemeValue> phonemeValueList = database.loadAllValueGroupEntries(activity);
+                ArrayList<PhonemeValue> result = new ArrayList<>();
+                for (PhonemeValue entryInList : phonemeValueList) {
+                    boolean isAlreadySelected = activity.isValueGroupEntrySelected(entryInList);
+                    if (!isAlreadySelected) result.add(entryInList);
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        activity.onLoadedValuesOutOfGroup(result);
+                    }
+                });
+            }
+        }).start();
     }
 
     protected class ValueButton {

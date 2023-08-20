@@ -23,4 +23,5 @@
     <string name="my_lists">Meine Listen</string>
     <string name="values_in_group">Werte in Gruppe</string>
     <string name="add_values_to_group">Werte zur Gruppe hinzufügen</string>
+    <string name="edit_value_group">Wertegruppe bearbeiten</string>
 </resources>

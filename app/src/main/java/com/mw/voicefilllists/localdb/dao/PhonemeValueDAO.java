@@ -3,6 +3,7 @@ package com.mw.voicefilllists.localdb.dao;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -16,10 +17,10 @@ public interface PhonemeValueDAO {
     List<PhonemeValueDatabaseEntry> getAll();
 
     @Query("SELECT * FROM PhonemeValueDatabaseEntry WHERE valueId IN (:valueIds)")
-    List<PhonemeValueDatabaseEntry> loadAllByIds(int[] valueIds);
+    List<PhonemeValueDatabaseEntry> loadAllByIds(List<Integer> valueIds);
 
-    @Insert
-    void insert(PhonemeValueDatabaseEntry valueGroupEntry);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    long insert(PhonemeValueDatabaseEntry valueGroupEntry);
 
     @Delete
     int delete(PhonemeValueDatabaseEntry valueGroupEntry);

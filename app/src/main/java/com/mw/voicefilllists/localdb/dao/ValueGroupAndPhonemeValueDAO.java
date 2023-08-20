@@ -1,7 +1,11 @@
 package com.mw.voicefilllists.localdb.dao;
 
 import androidx.room.Dao;
+import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+
+import com.mw.voicefilllists.localdb.entities.ValueGroupAndPhonemeValueDatabaseEntry;
 
 import java.util.List;
 
@@ -15,4 +19,10 @@ public interface ValueGroupAndPhonemeValueDAO {
 
     @Query("DELETE FROM ValueGroupAndPhonemeValueDatabaseEntry WHERE groupId = :groupId AND valueId = :valueId")
     void deleteByGroupIdAndValueId(int groupId, int valueId);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    long insert(ValueGroupAndPhonemeValueDatabaseEntry valueGroupAndPhonemeValueDatabaseEntry);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    long[] insertAll(List<ValueGroupAndPhonemeValueDatabaseEntry> entries);
 }
