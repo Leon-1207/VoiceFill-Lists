@@ -7,15 +7,15 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.mw.voicefilllists.activities.ValueGroupEntryActivity;
+import com.mw.voicefilllists.activities.PhonemeValueActivity;
 
 public class PhoneticTranscriptionInputFragment {
-    private final ValueGroupEntryActivity activity;
+    private final PhonemeValueActivity activity;
     private TextView phoneticTranscriptionView;
     private Button recordButton;
     private String phoneticTranscription;
 
-    public PhoneticTranscriptionInputFragment(ValueGroupEntryActivity activity) {
+    public PhoneticTranscriptionInputFragment(PhonemeValueActivity activity) {
         this.activity = activity;
     }
 

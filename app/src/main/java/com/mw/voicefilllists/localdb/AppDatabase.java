@@ -6,22 +6,22 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.mw.voicefilllists.ValueGroupEntry;
+import com.mw.voicefilllists.PhonemeValue;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Database(
         entities = {
-                ValueGroupEntryDatabaseEntry.class,
+                PhonemeValueDatabaseEntry.class,
                 ValueGroupDatabaseEntry.class,
-                ValueGroupValueCrossRef.class
+                ValueGroupAndPhonemeValueDatabaseEntry.class
         },
-        version = 7)
+        version = 8)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase instance;
 
-    public abstract ValueGroupEntryDAO valueGroupEntryDao();
+    public abstract PhonemeValueDAO valueGroupEntryDao();
 
     public abstract ValueGroupDAO valueGroupDAO();
 
@@ -36,12 +36,12 @@ public abstract class AppDatabase extends RoomDatabase {
 
     }
 
-    public List<ValueGroupEntry> loadAllValueGroupEntries(Context context) {
-        List<ValueGroupEntry> result = new ArrayList<>();
-        List<ValueGroupEntryDatabaseEntry> entries = getInstance(context)
+    public List<PhonemeValue> loadAllValueGroupEntries(Context context) {
+        List<PhonemeValue> result = new ArrayList<>();
+        List<PhonemeValueDatabaseEntry> entries = getInstance(context)
                 .valueGroupEntryDao()
                 .getAll();
-        for (ValueGroupEntryDatabaseEntry dbEntry : entries) {
+        for (PhonemeValueDatabaseEntry dbEntry : entries) {
             result.add(DataConverter.convert(dbEntry));
         }
         return result;

@@ -1,7 +1,6 @@
 package com.mw.voicefilllists.localdb;
 
 import androidx.room.Embedded;
-import androidx.room.Entity;
 import androidx.room.Junction;
 import androidx.room.Relation;
 
@@ -14,8 +13,8 @@ public class ValueGroupWithValuesDatabaseEntry {
     @Relation(
             parentColumn = "groupId",
             entityColumn = "valueId",
-            associateBy = @Junction(ValueGroupValueCrossRef.class)
+            associateBy = @Junction(ValueGroupAndPhonemeValueDatabaseEntry.class)
     )
-    public List<ValueGroupEntryDatabaseEntry> values;
+    public List<PhonemeValueDatabaseEntry> values;
 }
 

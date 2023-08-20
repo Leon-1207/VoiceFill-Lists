@@ -28,7 +28,7 @@
             android:label="MyValues"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".activities.CreateValueGroupEntryActivity"
+            android:name=".activities.CreatePhonemeValueActivity"
             android:label="MyValues"
             android:theme="@style/AppTheme" />
         <activity

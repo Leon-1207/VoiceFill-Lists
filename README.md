@@ -30,7 +30,7 @@ Eine Spalte gehört zu je einer Liste. Sie gibt an, welche Werte eingetragen wer
 
 Eine Wertekategorie ist eine Sammlung von mehreren Werten. Eine Wertekategorie kann in mehreren Listen gleichzeitig vertreten sein. So kann zum Beispiel die Wertekategorie "Gerichte" sowohl in der Liste "Essensabfrage Gruppe A" als auch "Essensabfrage Gruppe B" vorkommen. Zusätzlich wird noch eine eindeutige ID geniert und gespeichert.
 
-**Classname:** DataListValueGroup
+**Classname:** ValueGroup
 
 ## Kategorie-Wert
 
@@ -38,4 +38,4 @@ Eine Wertekategorie ist eine Sammlung von mehreren Werten. Eine Wertekategorie k
 
 Ein angelegter Wert hat einen Namen und mehrere Strings, die angeben, wie der Wert ausgesprochen wird (dadurch können auch ausländische Namen erkannt werden). Es werden mehrere Strings abgespeichert, um Abweichungen bei der Aussprache besser tolerieren zu können. Die Strings enthalten die phonetische Repräsentation der Aussprache. Ein Kategorie-Wert kann in mehreren Wertekategorien vorkommen. So kann "Max Mustermann" sowohl in der Wertekategorie "Namen Gruppe A" als auch "Mitarbeiternamen" vorkommen. Zusätzlich wird noch eine eindeutige ID geniert und gespeichert.
 
-**Classname:** ValueGroupEntry
+**Classname:** PhonemeValue

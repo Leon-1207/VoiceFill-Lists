@@ -1,13 +1,11 @@
 package com.mw.voicefilllists.localdb;
 
-import com.mw.voicefilllists.ValueGroupEntry;
+import com.mw.voicefilllists.PhonemeValue;
 
 public class DataConverter {
-    public static ValueGroupEntry convert(ValueGroupEntryDatabaseEntry valueGroupEntryDatabaseEntry) {
-        return new ValueGroupEntry(valueGroupEntryDatabaseEntry.valueId,
-                valueGroupEntryDatabaseEntry.label,
-                valueGroupEntryDatabaseEntry.phoneticTranscription.split(","));
+    public static PhonemeValue convert(PhonemeValueDatabaseEntry phonemeValueDatabaseEntry) {
+        return new PhonemeValue(phonemeValueDatabaseEntry.valueId,
+                phonemeValueDatabaseEntry.label,
+                phonemeValueDatabaseEntry.phoneticTranscription.split(","));
     }
-
-
 }

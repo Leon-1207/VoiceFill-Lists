@@ -7,11 +7,9 @@ import androidx.annotation.Nullable;
 
 import com.mw.voicefilllists.R;
 import com.mw.voicefilllists.localdb.AppDatabase;
-import com.mw.voicefilllists.localdb.ValueGroupEntryDatabaseEntry;
+import com.mw.voicefilllists.localdb.PhonemeValueDatabaseEntry;
 
-import java.util.UUID;
-
-public class CreateValueGroupEntryActivity extends ValueGroupEntryActivity {
+public class CreatePhonemeValueActivity extends PhonemeValueActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +25,7 @@ public class CreateValueGroupEntryActivity extends ValueGroupEntryActivity {
             @Override
             public void run() {
                 AppDatabase db = AppDatabase.getInstance(activity);
-                ValueGroupEntryDatabaseEntry dbEntry = new ValueGroupEntryDatabaseEntry();
+                PhonemeValueDatabaseEntry dbEntry = new PhonemeValueDatabaseEntry();
 
                 dbEntry.label = getEntryNameInputValue();
                 dbEntry.phoneticTranscription = getAllPhoneticTranscriptionsAsCommaSpreadString();

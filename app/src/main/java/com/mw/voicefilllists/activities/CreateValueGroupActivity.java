@@ -3,7 +3,7 @@ package com.mw.voicefilllists.activities;
 import android.app.Activity;
 
 import com.mw.voicefilllists.R;
-import com.mw.voicefilllists.ValueGroupEntry;
+import com.mw.voicefilllists.PhonemeValue;
 import com.mw.voicefilllists.localdb.AppDatabase;
 
 import java.util.ArrayList;
@@ -45,9 +45,9 @@ public class CreateValueGroupActivity extends ValueGroupActivity {
             @Override
             public void run() {
                 AppDatabase database = AppDatabase.getInstance(activity);
-                List<ValueGroupEntry> valueGroupEntryList = database.loadAllValueGroupEntries(activity);
-                ArrayList<ValueGroupEntry> result = new ArrayList<>();
-                for (ValueGroupEntry entryInList : valueGroupEntryList) {
+                List<PhonemeValue> phonemeValueList = database.loadAllValueGroupEntries(activity);
+                ArrayList<PhonemeValue> result = new ArrayList<>();
+                for (PhonemeValue entryInList : phonemeValueList) {
                     boolean isAlreadySelected = activity.isValueGroupEntrySelected(entryInList);
                     if (!isAlreadySelected) result.add(entryInList);
                 }

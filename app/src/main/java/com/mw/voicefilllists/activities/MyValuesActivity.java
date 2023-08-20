@@ -8,7 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.mw.voicefilllists.R;
-import com.mw.voicefilllists.ValueGroupEntry;
+import com.mw.voicefilllists.PhonemeValue;
 import com.mw.voicefilllists.localdb.AppDatabase;
 
 import java.util.Arrays;
@@ -25,7 +25,7 @@ public class MyValuesActivity extends AbstractViewAndEditDataActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                List<ValueGroupEntry> loadedValueGroupEntries = AppDatabase
+                List<PhonemeValue> loadedValueGroupEntries = AppDatabase
                         .getInstance(activity)
                         .loadAllValueGroupEntries(activity);
 
@@ -35,10 +35,10 @@ public class MyValuesActivity extends AbstractViewAndEditDataActivity {
                     public void run() {
                         // TODO
                         LinearLayout container = getValueListView();
-                        for (ValueGroupEntry valueGroupEntry : loadedValueGroupEntries) {
+                        for (PhonemeValue phonemeValue : loadedValueGroupEntries) {
                             TextView newView = new TextView(activity);
-                            newView.setText(String.format("%s %s", valueGroupEntry.getLabel(),
-                                    Arrays.toString(valueGroupEntry.getPhoneticTranscription())));
+                            newView.setText(String.format("%s %s", phonemeValue.getLabel(),
+                                    Arrays.toString(phonemeValue.getPhoneticTranscription())));
                             container.addView(newView);
                         }
                     }
@@ -54,7 +54,7 @@ public class MyValuesActivity extends AbstractViewAndEditDataActivity {
 
     @Override
     protected void switchToCreateEntryActivity() {
-        Intent intent = new Intent(MyValuesActivity.this.getApplicationContext(), CreateValueGroupEntryActivity.class);
+        Intent intent = new Intent(MyValuesActivity.this.getApplicationContext(), CreatePhonemeValueActivity.class);
         MyValuesActivity.this.startActivity(intent);
     }
 

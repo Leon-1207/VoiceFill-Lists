@@ -12,13 +12,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.mw.voicefilllists.R;
-import com.mw.voicefilllists.ValueGroupEntry;
+import com.mw.voicefilllists.PhonemeValue;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class ValueGroupActivity extends AppCompatActivity {
-    protected ArrayList<ValueGroupEntry> valuesInGroup, possibleValues;
+    protected ArrayList<PhonemeValue> valuesInGroup, possibleValues;
     private boolean loadingValuesInGroup = true;
 
     @Override
@@ -95,31 +95,31 @@ public abstract class ValueGroupActivity extends AppCompatActivity {
 
     protected abstract void loadPossibleValues();
 
-    protected void onLoadedValuesInGroup(List<ValueGroupEntry> entries) {
+    protected void onLoadedValuesInGroup(List<PhonemeValue> entries) {
         while (!valuesInGroup.isEmpty()) valuesInGroup.remove(0);
         valuesInGroup.addAll(entries);
         fillContainerWithValueGroupEntries(getValuesInGroupContainer(), entries);
         onEndLoadingValuesInGroup();
     }
 
-    protected void onLoadedValuesOutOfGroup(List<ValueGroupEntry> entries) {
+    protected void onLoadedValuesOutOfGroup(List<PhonemeValue> entries) {
         while (!possibleValues.isEmpty()) possibleValues.remove(0);
         possibleValues.addAll(entries);
         fillContainerWithValueGroupEntries(getPossibleValuesContainer(), entries);
         onEndLoadingValuesOutOfGroup();
     }
 
-    private void fillContainerWithValueGroupEntries(LinearLayout container, List<ValueGroupEntry> entries) {
-        for (ValueGroupEntry valueGroupEntry : entries) {
-            ValueButton valueButton = new ValueButton(valueGroupEntry);
+    private void fillContainerWithValueGroupEntries(LinearLayout container, List<PhonemeValue> entries) {
+        for (PhonemeValue phonemeValue : entries) {
+            ValueButton valueButton = new ValueButton(phonemeValue);
             View viewForValue = valueButton.inflate(this);
             container.addView(viewForValue);
         }
     }
 
-    protected boolean isValueGroupEntrySelected(ValueGroupEntry valueGroupEntry) {
-        for (ValueGroupEntry entryInList : valuesInGroup) {
-            if (entryInList.getId() == valueGroupEntry.getId()) return true;
+    protected boolean isValueGroupEntrySelected(PhonemeValue phonemeValue) {
+        for (PhonemeValue entryInList : valuesInGroup) {
+            if (entryInList.getId() == phonemeValue.getId()) return true;
         }
         return false;
     }
@@ -168,10 +168,10 @@ public abstract class ValueGroupActivity extends AppCompatActivity {
     }
 
     protected void deselectValue(ValueButton valueButton) {
-        ValueGroupEntry valueGroupEntry = valueButton.getValueGroupEntry();
+        PhonemeValue phonemeValue = valueButton.getValueGroupEntry();
         int index = 0;
-        for (ValueGroupEntry entryInList : valuesInGroup) {
-            if (entryInList.getId() == valueGroupEntry.getId()) {
+        for (PhonemeValue entryInList : valuesInGroup) {
+            if (entryInList.getId() == phonemeValue.getId()) {
                 // remove from list
                 valuesInGroup.remove(index);
 
@@ -187,18 +187,18 @@ public abstract class ValueGroupActivity extends AppCompatActivity {
     }
 
     protected class ValueButton {
-        private final ValueGroupEntry valueGroupEntry;
+        private final PhonemeValue phonemeValue;
         private View view;
 
-        protected ValueButton(ValueGroupEntry valueGroupEntry) {
-            this.valueGroupEntry = valueGroupEntry;
+        protected ValueButton(PhonemeValue phonemeValue) {
+            this.phonemeValue = phonemeValue;
         }
 
         public View inflate(ValueGroupActivity activity) {
             Button result = new Button(activity);
-            result.setText(valueGroupEntry.getLabel());
+            result.setText(phonemeValue.getLabel());
             result.setOnClickListener(v -> {
-                if (activity.isValueGroupEntrySelected(this.valueGroupEntry)) {
+                if (activity.isValueGroupEntrySelected(this.phonemeValue)) {
                     // currently selected -> deselect
                     activity.deselectValue(this);
                 } else {
@@ -210,8 +210,8 @@ public abstract class ValueGroupActivity extends AppCompatActivity {
             return result;
         }
 
-        public ValueGroupEntry getValueGroupEntry() {
-            return this.valueGroupEntry;
+        public PhonemeValue getValueGroupEntry() {
+            return this.phonemeValue;
         }
 
         public View getView() {

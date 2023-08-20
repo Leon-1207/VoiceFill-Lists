@@ -13,17 +13,15 @@ import com.mw.voicefilllists.PhoneticTranscriptionInputFragment;
 import com.mw.voicefilllists.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import edu.cmu.pocketsphinx.Hypothesis;
-import edu.cmu.pocketsphinx.SpeechRecognizer;
 
-public abstract class ValueGroupEntryActivity extends RecognizerActivity {
-    protected final int PHONETIC_TRANSCRIPTION_COUNT = 3;
+public abstract class PhonemeValueActivity extends RecognizerActivity {
+    protected final int PHONETIC_TRANSCRIPTION_COUNT = 1;   // TODO set to number like 3 (1 is better for quick testing)
     private final ArrayList<PhoneticTranscriptionInputFragment> phoneticTranscriptionInputs = new ArrayList<>();
     private PhoneticTranscriptionInputFragment activePhoneticTranscriptionInput = null;
     private EditText entryNameEdit;
-
+    
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_value_group_entry);

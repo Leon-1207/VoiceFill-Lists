@@ -5,7 +5,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class ValueGroupEntryDatabaseEntry {
+public class PhonemeValueDatabaseEntry {
     @PrimaryKey(autoGenerate = true)
     public int valueId;
 

@@ -1,11 +1,11 @@
 package com.mw.voicefilllists;
 
-public class ValueGroupEntry {
+public class PhonemeValue {
     private final int id;
     private String label;
     private String[] phoneticTranscription;
 
-    public ValueGroupEntry(int id, String label, String[] phoneticTranscription) {
+    public PhonemeValue(int id, String label, String[] phoneticTranscription) {
         this.id = id;
         this.label = label;
         this.phoneticTranscription = phoneticTranscription;
