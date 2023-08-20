@@ -11,7 +11,13 @@ import com.mw.voicefilllists.ValueGroupEntry;
 import java.util.ArrayList;
 import java.util.List;
 
-@Database(entities = {ValueGroupEntryDatabaseEntry.class}, version = 2)
+@Database(
+        entities = {
+                ValueGroupEntryDatabaseEntry.class,
+                ValueGroupDatabaseEntry.class,
+                ValueGroupValueCrossRef.class
+        },
+        version = 6)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase instance;
 

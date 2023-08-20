@@ -20,8 +20,6 @@ public class CreateValueGroupEntryActivity extends ValueGroupEntryActivity {
 
     @Override
     protected void onSaveButtonClicked() {
-        System.out.println("TEST");
-
         // save new entry to database
         Activity activity = this;
 

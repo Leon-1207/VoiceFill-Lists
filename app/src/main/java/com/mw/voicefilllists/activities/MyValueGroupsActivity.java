@@ -17,7 +17,7 @@ public class MyValueGroupsActivity extends AbstractViewAndEditDataActivity {
 
     @Override
     protected void switchToCreateEntryActivity() {
-        Intent intent = new Intent(MyValueGroupsActivity.this.getApplicationContext(), CreateValueGroupEntryActivity.class);
+        Intent intent = new Intent(MyValueGroupsActivity.this.getApplicationContext(), CreateValueGroupActivity.class);
         MyValueGroupsActivity.this.startActivity(intent);
     }
 

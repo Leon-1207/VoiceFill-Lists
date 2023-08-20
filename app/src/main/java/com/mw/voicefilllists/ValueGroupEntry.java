@@ -1,12 +1,12 @@
 package com.mw.voicefilllists;
 
 public class ValueGroupEntry {
-    private final int uid;
+    private final int id;
     private String label;
     private String[] phoneticTranscription;
 
-    public ValueGroupEntry(int uid, String label, String[] phoneticTranscription) {
-        this.uid = uid;
+    public ValueGroupEntry(int id, String label, String[] phoneticTranscription) {
+        this.id = id;
         this.label = label;
         this.phoneticTranscription = phoneticTranscription;
     }
@@ -27,7 +27,7 @@ public class ValueGroupEntry {
         this.label = label;
     }
 
-    public int getUid() {
-        return uid;
+    public int getId() {
+        return id;
     }
 }

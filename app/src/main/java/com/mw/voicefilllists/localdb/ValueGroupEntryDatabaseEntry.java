@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 @Entity
 public class ValueGroupEntryDatabaseEntry {
     @PrimaryKey(autoGenerate = true)
-    public int uid;
+    public int valueId;
 
     @ColumnInfo(name = "label")
     public String label;

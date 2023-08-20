@@ -13,8 +13,8 @@ public interface ValueGroupEntryDAO {
     @Query("SELECT * FROM ValueGroupEntryDatabaseEntry")
     List<ValueGroupEntryDatabaseEntry> getAll();
 
-    @Query("SELECT * FROM ValueGroupEntryDatabaseEntry WHERE uid IN (:userIds)")
-    List<ValueGroupEntryDatabaseEntry> loadAllByIds(int[] userIds);
+    @Query("SELECT * FROM ValueGroupEntryDatabaseEntry WHERE valueId IN (:valueIds)")
+    List<ValueGroupEntryDatabaseEntry> loadAllByIds(int[] valueIds);
 
     @Insert
     void insert(ValueGroupEntryDatabaseEntry valueGroupEntry);
