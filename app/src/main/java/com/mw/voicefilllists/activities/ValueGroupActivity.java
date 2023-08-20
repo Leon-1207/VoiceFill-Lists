@@ -1,6 +1,8 @@
 package com.mw.voicefilllists.activities;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,10 +26,33 @@ public abstract class ValueGroupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_value_group);
         setupBottomButtonLine();
+        setupToolbar();
         valuesInGroup = new ArrayList<>();
         possibleValues = new ArrayList<>();
+        setupNameInput();
         loadValuesInGroup();
+        loadPossibleValues();
     }
+
+    protected void setupNameInput() {
+        EditText nameTextEdit = findViewById(R.id.groupName);
+        nameTextEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                updateSaveButtonState();
+            }
+        });
+    }
+
+    protected abstract void setupToolbar();
 
     private void setupBottomButtonLine() {
         View buttonLine = findViewById(R.id.bottomButtonLine);
@@ -51,7 +76,7 @@ public abstract class ValueGroupActivity extends AppCompatActivity {
 
     protected boolean isNameValid() {
         String nameInputValue = getNameInputValue();
-        return nameInputValue.length() > 2;
+        return nameInputValue.length() > 0;
     }
 
     protected boolean isValuesInGroupValid() {
@@ -73,11 +98,15 @@ public abstract class ValueGroupActivity extends AppCompatActivity {
     protected void onLoadedValuesInGroup(List<ValueGroupEntry> entries) {
         while (!valuesInGroup.isEmpty()) valuesInGroup.remove(0);
         valuesInGroup.addAll(entries);
+        fillContainerWithValueGroupEntries(getValuesInGroupContainer(), entries);
+        onEndLoadingValuesInGroup();
     }
 
     protected void onLoadedValuesOutOfGroup(List<ValueGroupEntry> entries) {
         while (!possibleValues.isEmpty()) possibleValues.remove(0);
         possibleValues.addAll(entries);
+        fillContainerWithValueGroupEntries(getPossibleValuesContainer(), entries);
+        onEndLoadingValuesOutOfGroup();
     }
 
     private void fillContainerWithValueGroupEntries(LinearLayout container, List<ValueGroupEntry> entries) {
@@ -99,8 +128,16 @@ public abstract class ValueGroupActivity extends AppCompatActivity {
         onLoadingValuesInGroupChanged(true);
     }
 
-    protected void onEndLoadingValuesInGroup() {
+    private void onEndLoadingValuesInGroup() {
         onLoadingValuesInGroupChanged(false);
+    }
+
+    protected void onStartLoadingValuesOutOfGroup() {
+        onLoadingStateChanged(true, getPossibleValuesContainer(), findViewById(R.id.valuesOutOfGroupLoadingSpinner));
+    }
+
+    private void onEndLoadingValuesOutOfGroup() {
+        onLoadingStateChanged(false, getPossibleValuesContainer(), findViewById(R.id.valuesOutOfGroupLoadingSpinner));
     }
 
     private void onLoadingValuesInGroupChanged(boolean newLoadingState) {
@@ -111,7 +148,7 @@ public abstract class ValueGroupActivity extends AppCompatActivity {
 
     private void onLoadingStateChanged(boolean loading, View container, View loadingSpinner) {
         container.setVisibility(loading ? View.INVISIBLE : View.VISIBLE);
-        loadingSpinner.setVisibility(loading ? View.VISIBLE : View.INVISIBLE);
+        loadingSpinner.setVisibility(loading ? View.VISIBLE : View.GONE);
     }
 
     protected LinearLayout getValuesInGroupContainer() {
@@ -127,6 +164,7 @@ public abstract class ValueGroupActivity extends AppCompatActivity {
         getPossibleValuesContainer().removeView(valueButton.getView());
         getValuesInGroupContainer().addView(valueButton.inflate(this));
         loadPossibleValues();
+        updateSaveButtonState();
     }
 
     protected void deselectValue(ValueButton valueButton) {
@@ -145,6 +183,7 @@ public abstract class ValueGroupActivity extends AppCompatActivity {
             index += 1;
         }
         loadPossibleValues();
+        updateSaveButtonState();
     }
 
     protected class ValueButton {

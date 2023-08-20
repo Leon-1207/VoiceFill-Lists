@@ -17,11 +17,13 @@ import java.util.List;
                 ValueGroupDatabaseEntry.class,
                 ValueGroupValueCrossRef.class
         },
-        version = 6)
+        version = 7)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase instance;
 
     public abstract ValueGroupEntryDAO valueGroupEntryDao();
+
+    public abstract ValueGroupDAO valueGroupDAO();
 
     public static synchronized AppDatabase getInstance(Context context) {
         if (instance == null) {

@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         settingsButton.setOnTouchListener((v, event) -> {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    handler.postDelayed(longClickRunnable, 3000); // 3000 milliseconds = 3 seconds
+                    handler.postDelayed(longClickRunnable, 1000); // 1000 milliseconds = 1 seconds
                     break;
                 case MotionEvent.ACTION_UP:
                 case MotionEvent.ACTION_CANCEL:
