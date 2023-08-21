@@ -24,4 +24,7 @@
     <string name="values_in_group">Werte in Gruppe</string>
     <string name="add_values_to_group">Werte zur Gruppe hinzufügen</string>
     <string name="edit_value_group">Wertegruppe bearbeiten</string>
+    <string name="create_data_list_template">Neue Liste</string>
+    <string name="change_order_via_drag_and_drop">Halten und ziehen um Spalten zu ordnen</string>
+    <string name="column_name">Name der Spalte</string>
 </resources>

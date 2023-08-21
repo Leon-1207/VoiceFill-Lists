@@ -17,7 +17,7 @@ public class MyListsActivity extends AbstractViewAndEditDataActivity {
 
     @Override
     protected void switchToCreateEntryActivity() {
-        Intent intent = new Intent(MyListsActivity.this.getApplicationContext(), CreatePhonemeValueActivity.class);
+        Intent intent = new Intent(MyListsActivity.this.getApplicationContext(), CreateDataListTemplateActivity.class);
         MyListsActivity.this.startActivity(intent);
     }
 

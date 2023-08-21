@@ -36,6 +36,10 @@
             android:label="MyValues"
             android:theme="@style/AppTheme" />
         <activity
+            android:name=".activities.CreateDataListTemplateActivity"
+            android:label="MyValues"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".activities.MyValueGroupsActivity"
             android:label="MyValues"
             android:theme="@style/AppTheme" />
