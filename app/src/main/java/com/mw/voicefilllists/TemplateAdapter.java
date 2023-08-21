@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mw.voicefilllists.localdb.entities.ValueGroupDatabaseEntry;
+import com.mw.voicefilllists.model.ValueFromGroupColumn;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,6 +77,20 @@ public class TemplateAdapter extends RecyclerView.Adapter<TemplateAdapter.ViewHo
 
             // Implement other UI components and interactions here
             // TODO
+        }
+
+        public ValueFromGroupColumn getDataListColumn() {
+            ValueFromGroupColumn result = new ValueFromGroupColumn();
+
+            // set data id
+            int selectedIndex = columnDataTypeSpinner.getSelectedItemPosition();
+            ValueGroupDatabaseEntry selectedEntry = valueGroupDatabaseEntries.get(selectedIndex);
+            result.valueGroupId = selectedEntry.groupId;
+
+            // set name
+            result.columnName = columnNameEditText.getText().toString().trim();
+
+            return result;
         }
     }
 }

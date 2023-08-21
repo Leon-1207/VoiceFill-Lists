@@ -3,6 +3,7 @@ package com.mw.voicefilllists.activities;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +17,7 @@ import com.mw.voicefilllists.R;
 import com.mw.voicefilllists.TemplateAdapter;
 import com.mw.voicefilllists.localdb.AppDatabase;
 import com.mw.voicefilllists.localdb.entities.ValueGroupDatabaseEntry;
+import com.mw.voicefilllists.model.DataListTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,7 +89,27 @@ public abstract class DataListTemplateActivity extends AppCompatActivity {
         updateSaveButtonState();
     }
 
-    protected abstract void onSaveButtonClicked();
+    private void onSaveButtonClicked() {
+        DataListTemplateActivity activity = this;
+        loadingScreen.show();
+        DataListTemplate dataListTemplate = this.createDataListTemplateFromInput();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // save to database
+                AppDatabase.getInstance(activity).saveDataListTemplate(dataListTemplate);
+
+                // finish activity
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        activity.loadingScreen.dismiss();
+                        activity.finish();
+                    }
+                });
+            }
+        }).start();
+    }
 
     private void updateSaveButtonState() {
         // TODO
@@ -96,6 +118,31 @@ public abstract class DataListTemplateActivity extends AppCompatActivity {
     private void addItem() {
         items.add("New Item");
         templateAdapter.notifyItemInserted(items.size() - 1);
+    }
+
+    public DataListTemplate createDataListTemplateFromInput() {
+        DataListTemplate result = new DataListTemplate();
+
+        // set name
+        result.name = getNameInputValue();
+
+        // set columns
+        result.columns = new ArrayList<>();
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        int columnCount = this.templateAdapter.getItemCount();
+        for (int i = 0; i < columnCount; i++) {
+            TemplateAdapter.ViewHolder columnViewHolder = (TemplateAdapter.ViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
+            if (columnViewHolder != null) {
+                result.columns.add(columnViewHolder.getDataListColumn());
+            }
+        }
+
+        return result;
+    }
+
+    protected String getNameInputValue() {
+        EditText input = findViewById(R.id.templateName);
+        return input.getText().toString().trim();
     }
 
     private class ItemTouchHelperCallback extends ItemTouchHelper.SimpleCallback {

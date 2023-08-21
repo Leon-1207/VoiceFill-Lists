@@ -7,6 +7,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import com.mw.voicefilllists.model.DataListPage;
+import com.mw.voicefilllists.model.DataListTemplate;
 import com.mw.voicefilllists.model.PhonemeValue;
 import com.mw.voicefilllists.localdb.dao.PhonemeValueDAO;
 import com.mw.voicefilllists.localdb.dao.ValueGroupAndPhonemeValueDAO;
@@ -54,5 +55,15 @@ public abstract class AppDatabase extends RoomDatabase {
             result.add(DataConverter.convert(dbEntry));
         }
         return result;
+    }
+
+    public void saveDataListTemplate(DataListTemplate dataListTemplate) {
+        if (dataListTemplate.hasTemplateId()) {
+            // is already in database --> UPDATE
+            // TODO
+        } else {
+            // no ID --> is not in database --> INSERT
+            // TODO
+        }
     }
 }
