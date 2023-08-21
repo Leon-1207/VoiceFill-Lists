@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.mw.voicefilllists.LoadingScreen;
 import com.mw.voicefilllists.R;
 import com.mw.voicefilllists.TemplateAdapter;
 import com.mw.voicefilllists.localdb.AppDatabase;
@@ -23,10 +24,12 @@ public abstract class DataListTemplateActivity extends AppCompatActivity {
     private TemplateAdapter templateAdapter;
     private List<String> items;
     private List<ValueGroupDatabaseEntry> valueGroupDatabaseEntries;
+    private LoadingScreen loadingScreen;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.loadingScreen = new LoadingScreen(this);
         setContentView(R.layout.activity_data_list_template);
         setupToolbar();
         this.valueGroupDatabaseEntries = null;
@@ -36,12 +39,14 @@ public abstract class DataListTemplateActivity extends AppCompatActivity {
 
     private void loadDataAndStartSetup() {
         DataListTemplateActivity activity = this;
+        loadingScreen.show();
         new Thread(new Runnable() {
             @Override
             public void run() {
                 AppDatabase database = AppDatabase.getInstance(activity);
                 activity.valueGroupDatabaseEntries = database.valueGroupDAO().getAll();
                 runOnUiThread(activity::setupRecyclerView);
+                activity.loadingScreen.dismiss();
             }
         }).start();
     }
