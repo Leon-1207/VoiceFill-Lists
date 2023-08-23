@@ -11,4 +11,7 @@ public class DataListColumnDatabaseEntry {
 
     @ColumnInfo(name = "template_id")
     public int templateId;
+
+    @ColumnInfo(name = "column_name")
+    public String columnName;
 }

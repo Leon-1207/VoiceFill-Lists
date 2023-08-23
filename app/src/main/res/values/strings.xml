@@ -28,4 +28,5 @@
     <string name="change_order_via_drag_and_drop">Halten und ziehen um Spalten zu ordnen</string>
     <string name="column_name">Name der Spalte</string>
     <string name="add_column">Spalte hinzufügen</string>
+    <string name="edit_data_list_template">Liste bearbeiten</string>
 </resources>

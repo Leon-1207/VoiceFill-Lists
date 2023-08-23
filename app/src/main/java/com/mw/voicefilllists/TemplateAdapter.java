@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mw.voicefilllists.localdb.entities.ValueGroupDatabaseEntry;
+import com.mw.voicefilllists.model.DataListColumn;
 import com.mw.voicefilllists.model.ValueFromGroupColumn;
 
 import java.util.ArrayList;
@@ -18,10 +19,10 @@ import java.util.List;
 
 public class TemplateAdapter extends RecyclerView.Adapter<TemplateAdapter.ViewHolder> {
 
-    private List<String> items;
+    private List<DataListColumn> items;
     protected List<ValueGroupDatabaseEntry> valueGroupDatabaseEntries;
 
-    public TemplateAdapter(List<String> items, List<ValueGroupDatabaseEntry> valueGroupDatabaseEntries) {
+    public TemplateAdapter(List<DataListColumn> items, List<ValueGroupDatabaseEntry> valueGroupDatabaseEntries) {
         this.items = items;
         this.valueGroupDatabaseEntries = valueGroupDatabaseEntries;
     }
@@ -36,12 +37,13 @@ public class TemplateAdapter extends RecyclerView.Adapter<TemplateAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        String item = items.get(position);
+        DataListColumn item = items.get(position);
         holder.bind(item);
     }
 
     @Override
     public int getItemCount() {
+        if (items == null) return 0;
         return items.size();
     }
 
@@ -68,12 +70,25 @@ public class TemplateAdapter extends RecyclerView.Adapter<TemplateAdapter.ViewHo
             columnDataTypeSpinner.setAdapter(dataTypeAdapter);
         }
 
-        public void bind(String item) {
+        private int getColumnDataTypeIndex(DataListColumn dataListColumn) {
+            if (dataListColumn instanceof ValueFromGroupColumn) {
+                for (int i = 0; i < valueGroupDatabaseEntries.size(); i++) {
+                    if (valueGroupDatabaseEntries.get(i).groupId == ((ValueFromGroupColumn) dataListColumn).valueGroupId) {
+                        return i;
+                    }
+                }
+            } else {
+                // TODO
+            }
+            return 0;
+        }
+
+        public void bind(DataListColumn item) {
             // name text input
-            columnNameEditText.setText(item);
+            columnNameEditText.setText(item.columnName);
 
             // data type spinner
-            // TODO
+            int selectedIndex = getColumnDataTypeIndex(item);
 
             // Implement other UI components and interactions here
             // TODO

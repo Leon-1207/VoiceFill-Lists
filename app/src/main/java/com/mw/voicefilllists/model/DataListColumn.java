@@ -1,5 +1,9 @@
 package com.mw.voicefilllists.model;
 
-public abstract class DataListColumn {
+public class DataListColumn {
     public String columnName;
+
+    public DataListColumn() {
+        columnName = "";
+    }
 }

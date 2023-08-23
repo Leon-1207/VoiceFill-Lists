@@ -1,9 +1,11 @@
 package com.mw.voicefilllists.activities;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +19,7 @@ import com.mw.voicefilllists.R;
 import com.mw.voicefilllists.TemplateAdapter;
 import com.mw.voicefilllists.localdb.AppDatabase;
 import com.mw.voicefilllists.localdb.entities.ValueGroupDatabaseEntry;
+import com.mw.voicefilllists.model.DataListColumn;
 import com.mw.voicefilllists.model.DataListTemplate;
 
 import java.util.ArrayList;
@@ -24,9 +27,11 @@ import java.util.List;
 
 public abstract class DataListTemplateActivity extends AppCompatActivity {
     private TemplateAdapter templateAdapter;
-    private List<String> items;
+    private List<DataListColumn> items;
     private List<ValueGroupDatabaseEntry> valueGroupDatabaseEntries;
     private LoadingScreen loadingScreen;
+    private DataListTemplate initialDataListTemplate;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,6 +44,14 @@ public abstract class DataListTemplateActivity extends AppCompatActivity {
         setupBottomButtonLine();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadDataAndStartSetup();
+    }
+
+    protected abstract DataListTemplate loadInitialDataListTemplateInCurrentThread();
+
     private void loadDataAndStartSetup() {
         DataListTemplateActivity activity = this;
         loadingScreen.show();
@@ -47,19 +60,35 @@ public abstract class DataListTemplateActivity extends AppCompatActivity {
             public void run() {
                 AppDatabase database = AppDatabase.getInstance(activity);
                 activity.valueGroupDatabaseEntries = database.valueGroupDAO().getAll();
-                runOnUiThread(activity::setupRecyclerView);
+
+                // load initial DataListTemplate
+                activity.initialDataListTemplate = activity.loadInitialDataListTemplateInCurrentThread();
+                System.out.println("ID: " +
+                        (activity.initialDataListTemplate.hasTemplateId() ? activity.initialDataListTemplate.getTemplateId() : "NONE")
+                        + (" Columns: " + (activity.initialDataListTemplate.columns == null ? "NONE" : activity.initialDataListTemplate.columns.size()))
+                        + " Name: " + activity.initialDataListTemplate.name);
+
+                runOnUiThread(() -> {
+                    activity.setupTextView();
+                    activity.setupRecyclerView();
+                });
                 activity.loadingScreen.dismiss();
             }
         }).start();
+    }
+
+    private void setupTextView() {
+        EditText editText = findViewById(R.id.templateName);
+        editText.setText(initialDataListTemplate.name);
     }
 
     protected abstract void setupToolbar();
 
     private void setupRecyclerView() {
         items = new ArrayList<>();
-        items.add("First Name");
-        items.add("Last Name");
-        items.add("Email");
+        if (this.initialDataListTemplate.columns != null) {
+            items.addAll(this.initialDataListTemplate.columns);
+        }
 
         templateAdapter = new TemplateAdapter(items, valueGroupDatabaseEntries);
 
@@ -96,17 +125,28 @@ public abstract class DataListTemplateActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                // save to database
-                AppDatabase.getInstance(activity).saveDataListTemplate(dataListTemplate);
+                try {
+                    // save to database
+                    AppDatabase.getInstance(activity).saveDataListTemplate(activity, dataListTemplate);
 
-                // finish activity
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        activity.loadingScreen.dismiss();
-                        activity.finish();
-                    }
-                });
+                    // finish activity
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            activity.loadingScreen.dismiss();
+                            activity.finish();
+                        }
+                    });
+                } catch (Exception exception) {
+                    // finish activity
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            activity.loadingScreen.dismiss();
+                            Toast.makeText(activity, exception.toString(), Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
             }
         }).start();
     }
@@ -116,12 +156,17 @@ public abstract class DataListTemplateActivity extends AppCompatActivity {
     }
 
     private void addItem() {
-        items.add("New Item");
+        items.add(new DataListColumn());
         templateAdapter.notifyItemInserted(items.size() - 1);
     }
 
     public DataListTemplate createDataListTemplateFromInput() {
         DataListTemplate result = new DataListTemplate();
+
+        // set id
+        if (this.initialDataListTemplate.hasTemplateId()) {
+            result.setTemplateId(this.initialDataListTemplate.getTemplateId());
+        }
 
         // set name
         result.name = getNameInputValue();

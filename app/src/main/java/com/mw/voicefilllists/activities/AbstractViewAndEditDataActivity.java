@@ -8,13 +8,17 @@ import android.widget.LinearLayout;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.mw.voicefilllists.LoadingScreen;
 import com.mw.voicefilllists.R;
 
 public abstract class AbstractViewAndEditDataActivity extends AppCompatActivity {
+    LoadingScreen loadingScreen;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.abstract_activity_view_and_edit_entries);
+        loadingScreen = new LoadingScreen(this);
         setupToolbar();
         setupCreateNewValueButton();
         loadValueList();
