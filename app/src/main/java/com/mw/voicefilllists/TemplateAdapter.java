@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -68,6 +69,16 @@ public class TemplateAdapter extends RecyclerView.Adapter<TemplateAdapter.ViewHo
                     android.R.layout.simple_spinner_dropdown_item, dataTypeNames);
             dataTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             columnDataTypeSpinner.setAdapter(dataTypeAdapter);
+
+            // Remove item button
+            Button removeItemButton = itemView.findViewById(R.id.removeItemButton);
+            removeItemButton.setOnClickListener(v -> {
+                int position = getBindingAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    items.remove(position);
+                    notifyItemRemoved(position);
+                }
+            });
         }
 
         private int getColumnDataTypeIndex(DataListColumn dataListColumn) {
