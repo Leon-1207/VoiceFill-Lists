@@ -89,6 +89,7 @@ public class TemplateAdapter extends RecyclerView.Adapter<TemplateAdapter.ViewHo
 
             // data type spinner
             int selectedIndex = getColumnDataTypeIndex(item);
+            columnDataTypeSpinner.setSelection(selectedIndex, false);
 
             // Implement other UI components and interactions here
             // TODO

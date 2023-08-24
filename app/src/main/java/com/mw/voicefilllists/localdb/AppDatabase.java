@@ -71,7 +71,6 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public void saveDataListTemplate(Context context, DataListTemplate dataListTemplate) throws Exception {
         DataListTemplateDAO dao = AppDatabase.getInstance(context).dataListTemplateDAO();
-        System.out.println(dataListTemplate.hasTemplateId());
         if (dataListTemplate.hasTemplateId()) {
             // is already in database --> UPDATE
             dao.updateTemplateWithColumns(dataListTemplate);
