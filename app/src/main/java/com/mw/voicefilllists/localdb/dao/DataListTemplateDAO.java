@@ -77,9 +77,8 @@ public abstract class DataListTemplateDAO {
     public void updateTemplateWithColumns(DataListTemplate dataListTemplate) throws Exception {
         int templateId = dataListTemplate.getTemplateId();
 
-        DataListTemplateDatabaseEntry databaseEntry = new DataListTemplateDatabaseEntry();
+        DataListTemplateDatabaseEntry databaseEntry = getById(dataListTemplate.getTemplateId());
         databaseEntry.name = dataListTemplate.name;
-        databaseEntry.templateId = templateId;
 
         // delete current columns
         deleteColumnsOfTemplate(templateId);
@@ -87,7 +86,7 @@ public abstract class DataListTemplateDAO {
         // add new columns
         addColumnsForTemplate(dataListTemplate.columns, templateId);
 
-        deleteColumnsOfTemplate(templateId);
+        update(databaseEntry);
     }
 
     @Transaction

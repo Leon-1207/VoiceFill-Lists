@@ -44,12 +44,6 @@ public abstract class DataListTemplateActivity extends AppCompatActivity {
         setupBottomButtonLine();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        loadDataAndStartSetup();
-    }
-
     protected abstract DataListTemplate loadInitialDataListTemplateInCurrentThread();
 
     private void loadDataAndStartSetup() {

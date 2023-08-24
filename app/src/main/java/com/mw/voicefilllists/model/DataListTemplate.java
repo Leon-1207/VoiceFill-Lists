@@ -8,8 +8,11 @@ public class DataListTemplate {
     public List<DataListColumn> columns;
     private boolean hasTemplateId;
 
-    public int getTemplateId() {
+    public DataListTemplate() {
         this.hasTemplateId = false;
+    }
+
+    public int getTemplateId() {
         return templateId;
     }
 
