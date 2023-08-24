@@ -29,4 +29,10 @@
     <string name="column_name">Name der Spalte</string>
     <string name="add_column">Spalte hinzufügen</string>
     <string name="edit_data_list_template">Liste bearbeiten</string>
+    <string name="menu_button">Listenseiten Menü</string>
+    <string name="my_list_pages">Meine Listenseiten</string>
+    <string name="new_list_page">Neue Listenseite</string>
+    <string name="page_template">Liste</string>
+    <string name="edit_list_page">Listenseite bearbeiten</string>
+    <string name="page_menu_button_short_click_toast">Gedrückt halten um das Menü zu öffnen</string>
 </resources>

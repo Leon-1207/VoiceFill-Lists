@@ -55,5 +55,17 @@
             android:name=".activities.EditValueGroupActivity"
             android:label="MyValues"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities.MyListPagesActivity"
+            android:label="MyValues"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities.CreateDataListPageActivity"
+            android:label="MyValues"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities.EditDataListPageActivity"
+            android:label="MyValues"
+            android:theme="@style/AppTheme" />
     </application>
 </manifest>

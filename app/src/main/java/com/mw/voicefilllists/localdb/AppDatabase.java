@@ -6,8 +6,10 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+import com.mw.voicefilllists.localdb.dao.DataListPageDAO;
 import com.mw.voicefilllists.localdb.dao.DataListTemplateDAO;
 import com.mw.voicefilllists.localdb.entities.DataListColumnDatabaseEntry;
+import com.mw.voicefilllists.localdb.entities.DataListPageDatabaseEntry;
 import com.mw.voicefilllists.localdb.entities.DataListTemplateDatabaseEntry;
 import com.mw.voicefilllists.localdb.entities.ValueGroupColumnDatabaseEntry;
 import com.mw.voicefilllists.model.DataListPage;
@@ -29,9 +31,10 @@ import java.util.List;
                 ValueGroupDatabaseEntry.class,
                 ValueGroupAndPhonemeValueDatabaseEntry.class,
                 DataListTemplateDatabaseEntry.class,
-                ValueGroupColumnDatabaseEntry.class
+                ValueGroupColumnDatabaseEntry.class,
+                DataListPageDatabaseEntry.class
         },
-        version = 11)
+        version = 12)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase instance;
 
@@ -44,6 +47,8 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract ValueGroupDAO valueGroupDAO();
 
     public abstract DataListTemplateDAO dataListTemplateDAO();
+
+    public abstract DataListPageDAO dataListPageDAO();
 
 
     public static synchronized AppDatabase getInstance(Context context) {
