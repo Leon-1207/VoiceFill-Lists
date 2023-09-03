@@ -23,7 +23,7 @@ public abstract class DataListPageActivity extends AppCompatActivity {
     private List<DataListTemplateDatabaseEntry> templates;
     private Spinner templateSpinner;
     private EditText nameTextInput;
-    private String initialNameValue;
+    protected String initialNameValue;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

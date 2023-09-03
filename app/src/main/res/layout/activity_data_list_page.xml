@@ -22,6 +22,17 @@
         android:layout_height="wrap_content"
         android:text="@string/page_template" />
 
+    <TextView
+        android:id="@+id/currentTemplate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="2dp"
+        android:text="Current List"
+        android:textColor="@color/colorDark"
+        android:textSize="16sp"
+        android:visibility="gone" />
+
     <Spinner
         android:id="@+id/pageTemplate"
         android:layout_width="match_parent"

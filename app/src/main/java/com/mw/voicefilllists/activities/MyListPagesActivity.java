@@ -2,7 +2,6 @@ package com.mw.voicefilllists.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,7 +13,6 @@ import com.mw.voicefilllists.R;
 import com.mw.voicefilllists.localdb.AppDatabase;
 import com.mw.voicefilllists.localdb.entities.DataListPageNameAndId;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MyListPagesActivity extends AbstractViewAndEditDataActivity {

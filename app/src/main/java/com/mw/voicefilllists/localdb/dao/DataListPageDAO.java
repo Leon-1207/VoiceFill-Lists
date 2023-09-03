@@ -16,7 +16,7 @@ import java.util.List;
 @Dao
 public abstract class DataListPageDAO {
     @Query("SELECT * FROM data_list_page WHERE pageId = :pageId")
-    abstract List<DataListPageDatabaseEntry> getById(int pageId);
+    public abstract DataListPageDatabaseEntry getById(int pageId);
 
     @Query("SELECT pageId, pageName FROM data_list_page")
     public abstract List<DataListPageNameAndId> getIdNamePairs();
@@ -27,7 +27,7 @@ public abstract class DataListPageDAO {
 
     @Transaction
     @Update
-    abstract void update(DataListPageDatabaseEntry databaseEntry);
+    public abstract void update(DataListPageDatabaseEntry databaseEntry);
 
     @Transaction
     @Delete
