@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.mw.voicefilllists.activities.CreateValueGroupActivity;
 import com.mw.voicefilllists.activities.EditDataListPageActivity;
+import com.mw.voicefilllists.activities.MainActivity;
 import com.mw.voicefilllists.activities.MyValueGroupsActivity;
 import com.mw.voicefilllists.localdb.entities.DataListPageNameAndId;
 
@@ -63,7 +64,10 @@ public class DataListPageAdapter extends RecyclerView.Adapter<DataListPageAdapte
 
         holder.nameTextView.setOnClickListener(v -> {
             // Switch to main activity with page selected
-            // TODO
+            Intent intent = new Intent(activity, MainActivity.class);
+            intent.putExtra("pageId", entry.pageId);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            activity.getApplicationContext().startActivity(intent);
         });
 
         holder.optionsButton.setOnClickListener(v -> {

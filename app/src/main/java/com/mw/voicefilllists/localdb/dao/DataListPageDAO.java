@@ -10,6 +10,7 @@ import androidx.room.Update;
 
 import com.mw.voicefilllists.localdb.entities.DataListPageDatabaseEntry;
 import com.mw.voicefilllists.localdb.entities.DataListPageNameAndId;
+import com.mw.voicefilllists.model.DataListPage;
 
 import java.util.List;
 

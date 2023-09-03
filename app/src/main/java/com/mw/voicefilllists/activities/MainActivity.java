@@ -4,17 +4,25 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.mw.voicefilllists.LoadingScreen;
 import com.mw.voicefilllists.R;
+import com.mw.voicefilllists.localdb.AppDatabase;
+import com.mw.voicefilllists.model.DataListPage;
 
 public class MainActivity extends AppCompatActivity {
     private ClickDurationData menuClickDurationData;
     private ClickDurationData settingsClickDurationData;
+    private DataListPage dataListPage = null;
+    private LoadingScreen loadingScreen;
 
     private abstract static class ClickDurationData {
         public final Handler handler;
@@ -35,12 +43,13 @@ public class MainActivity extends AppCompatActivity {
         public abstract void onLongClick();
     }
 
-    
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        loadingScreen = new LoadingScreen(this);
 
         // settings button
         ImageButton settingsButton = findViewById(R.id.settingsButton);
@@ -57,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
         };
         settingsButton.setOnTouchListener((v, event) -> handleSecurityButtonClick(event, settingsClickDurationData));
 
-
         // list page menu button
         this.menuClickDurationData = new ClickDurationData() {
             @Override
@@ -71,6 +79,40 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         findViewById(R.id.templateSheetMenuButton).setOnTouchListener((v, event) -> handleSecurityButtonClick(event, menuClickDurationData));
+
+        // load pageId from intent extra
+        setDataListPage(null);
+        Intent intent = this.getIntent();
+        if (intent != null && intent.hasExtra("pageId")) {
+            loadList(intent.getIntExtra("pageId", -1));
+        }
+    }
+
+    private void loadList(int pageId) {
+        MainActivity activity = this;
+        loadingScreen.show();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                DataListPage dataListPage = AppDatabase.getInstance(activity).loadDataListPageCompletely(activity, pageId);
+                setDataListPage(dataListPage);
+                activity.loadingScreen.dismiss();
+            }
+        }).start();
+    }
+
+    public void setDataListPage(DataListPage dataListPage) {
+        this.dataListPage = dataListPage;
+        boolean isListSelected = dataListPage != null;
+        findViewById(R.id.noListSelectedContent).setVisibility(isListSelected ? View.GONE : View.VISIBLE);
+        findViewById(R.id.listSelectedContent).setVisibility(isListSelected ? View.VISIBLE : View.GONE);
+        if (isListSelected) {
+            // insert page and template name into button
+            TextView pageTemplateTextView = findViewById(R.id.templateNameTextView);
+            pageTemplateTextView.setText(dataListPage.getTemplate().name);
+            TextView pageNameTextView = findViewById(R.id.pageIndicatorTextView);
+            pageNameTextView.setText(dataListPage.getName());
+        }
     }
 
     private boolean handleSecurityButtonClick(MotionEvent event, ClickDurationData clickDurationData) {

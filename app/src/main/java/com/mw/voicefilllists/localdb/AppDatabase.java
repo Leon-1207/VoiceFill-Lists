@@ -84,4 +84,13 @@ public abstract class AppDatabase extends RoomDatabase {
             dao.insertTemplateWithColumns(dataListTemplate);
         }
     }
+
+    public DataListPage loadDataListPageCompletely(Context context, int pageId) {
+        DataListPageDatabaseEntry dataListPageDatabaseEntry = dataListPageDAO().getById(pageId);
+
+        // get template object of data list page
+        DataListTemplate template = dataListTemplateDAO().loadDataListTemplate(dataListPageDatabaseEntry.templateId);
+
+        return new DataListPage(pageId, dataListPageDatabaseEntry.pageName, template);
+    }
 }

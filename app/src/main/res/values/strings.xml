@@ -36,4 +36,5 @@
     <string name="edit_list_page">Listenseite bearbeiten</string>
     <string name="page_menu_button_short_click_toast">Gedrückt halten um das Menü zu öffnen</string>
     <string name="please_select_an_option">Bitte wähle eine Option aus</string>
+    <string name="open_list_menu">Liste auswählen</string>
 </resources>
