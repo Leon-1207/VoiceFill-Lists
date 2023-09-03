@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
@@ -20,18 +22,18 @@ import edu.cmu.pocketsphinx.RecognitionListener;
 import edu.cmu.pocketsphinx.SpeechRecognizer;
 import edu.cmu.pocketsphinx.SpeechRecognizerSetup;
 
-public class RecognizerActivity extends Activity implements
+public class RecognizerActivity extends AppCompatActivity implements
         RecognitionListener {
 
-    private static final String LOG_TAG = "RecognizerActivity";
-    private static final String PHONE_SEARCH = "phones";
-    private static final String KWS_SEARCH = "weakup";
-    private static final String KEYPHRASE = "Fareed";
+    protected static final String LOG_TAG = "RecognizerActivity";
+    protected static final String PHONE_SEARCH = "phones";
+    protected static final String KWS_SEARCH = "weakup";
+    protected static final String KEYPHRASE = "Fareed";
 
     /* Used to handle permission request */
     private static final int PERMISSIONS_REQUEST_RECORD_AUDIO = 1;
 
-    private SpeechRecognizer recognizer;
+    protected SpeechRecognizer recognizer;
 
     @Override
     public void onCreate(Bundle state) {
@@ -59,6 +61,7 @@ public class RecognizerActivity extends Activity implements
         @Override
         protected Exception doInBackground(Void... params) {
             try {
+                activityReference.get().onStartSetup();
                 Assets assets = new Assets(activityReference.get());
                 File assetDir = assets.syncAssets();
                 activityReference.get().setupRecognizer(assetDir);
@@ -77,7 +80,14 @@ public class RecognizerActivity extends Activity implements
                 msg = "Recognizer is ready";
             }
             Log.i(LOG_TAG, msg);
+            activityReference.get().onEndSetup();
         }
+    }
+
+    public void onStartSetup() {
+    }
+
+    public void onEndSetup() {
     }
 
     @Override
@@ -133,7 +143,7 @@ public class RecognizerActivity extends Activity implements
     public void onEndOfSpeech() {
     }
 
-    private void setupRecognizer(File assetsDir) throws IOException {
+    protected void setupRecognizer(File assetsDir) throws IOException {
         // The recognizer can be configured to perform multiple searches
         // of different kind and switch between them
         File dictionary = new File(assetsDir, "cmudict-en-us.dict");

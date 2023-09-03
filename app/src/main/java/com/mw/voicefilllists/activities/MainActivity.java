@@ -10,18 +10,23 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.mw.voicefilllists.LoadingScreen;
 import com.mw.voicefilllists.R;
 import com.mw.voicefilllists.localdb.AppDatabase;
 import com.mw.voicefilllists.model.DataListPage;
 
-public class MainActivity extends AppCompatActivity {
+import java.io.File;
+import java.io.IOException;
+
+import edu.cmu.pocketsphinx.SpeechRecognizerSetup;
+
+public class MainActivity extends RecognizerActivity {
     private ClickDurationData menuClickDurationData;
     private ClickDurationData settingsClickDurationData;
     private DataListPage dataListPage = null;
     private LoadingScreen loadingScreen;
+    private boolean loadingDataList = false;
+    private boolean loadingRecognizer = false;
 
     private abstract static class ClickDurationData {
         public final Handler handler;
@@ -45,10 +50,11 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
         loadingScreen = new LoadingScreen(this);
+
+        super.onCreate(savedInstanceState);
 
         // settings button
         ImageButton settingsButton = findViewById(R.id.settingsButton);
@@ -89,13 +95,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadList(int pageId) {
         MainActivity activity = this;
-        loadingScreen.show();
+        setLoadingDataList(true);
         new Thread(new Runnable() {
             @Override
             public void run() {
                 DataListPage dataListPage = AppDatabase.getInstance(activity).loadDataListPageCompletely(activity, pageId);
                 setDataListPage(dataListPage);
-                activity.loadingScreen.dismiss();
+                setLoadingDataList(false);
             }
         }).start();
     }
@@ -154,6 +160,61 @@ public class MainActivity extends AppCompatActivity {
     private void onPageMenuButtonClicked() {
         // Handle short click action
         Toast.makeText(this, R.string.page_menu_button_short_click_toast, Toast.LENGTH_SHORT).show();
+    }
+
+    public void setLoadingRecognizer(boolean loadingRecognizer) {
+        this.loadingRecognizer = loadingRecognizer;
+        updateLoadingScreen();
+    }
+
+    public void setLoadingDataList(boolean loadingDataList) {
+        this.loadingDataList = loadingDataList;
+        updateLoadingScreen();
+    }
+
+    private void updateLoadingScreen() {
+        runOnUiThread(() -> {
+            if (loadingDataList || loadingRecognizer) loadingScreen.show();
+            else loadingScreen.dismiss();
+        });
+    }
+
+    @Override
+    public void onStartSetup() {
+        super.onStartSetup();
+        setLoadingRecognizer(true);
+    }
+
+    @Override
+    public void onEndSetup() {
+        super.onEndSetup();
+        setLoadingRecognizer(false);
+    }
+
+    @Override
+    protected void setupRecognizer(File assetsDir) throws IOException {
+        // TODO
+
+        File dictionary = new File(assetsDir, "cmudict-en-us.dict");
+        //LanguageModelModifier languageModelModifier = new LanguageModelModifier(dictionary);
+        //System.out.println("1 " + languageModelModifier.isWordInDictionary("Fareed"));
+        //languageModelModifier.addWordToDictionary("Fareed", "F AH N IY R TH");
+        //System.out.println("2 " + languageModelModifier.isWordInDictionary("Fareed"));
+
+        recognizer = SpeechRecognizerSetup.defaultSetup()
+                .setAcousticModel(new File(assetsDir, "en-us-ptm"))
+                .setDictionary(dictionary)
+                // .setRawLogDir(assetsDir) // To disable logging of raw audio comment out this call (takes a lot of space on the device)
+                .getRecognizer();
+        recognizer.addListener(this);
+
+        /* In your application you might not need to add all those searches.
+          They are added here for demonstration. You can leave just one.
+         */
+
+        // Phonetic search
+        File phoneticModel = new File(assetsDir, "en-phone.dmp");
+        recognizer.addAllphoneSearch(PHONE_SEARCH, phoneticModel);
     }
 }
 
