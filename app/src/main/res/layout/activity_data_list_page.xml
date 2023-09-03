@@ -23,6 +23,7 @@
         android:text="@string/page_template" />
 
     <Spinner
+        android:id="@+id/pageTemplate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
