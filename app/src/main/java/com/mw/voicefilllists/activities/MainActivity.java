@@ -194,27 +194,7 @@ public class MainActivity extends RecognizerActivity {
     @Override
     protected void setupRecognizer(File assetsDir) throws IOException {
         // TODO
-
-        File dictionary = new File(assetsDir, "cmudict-en-us.dict");
-        //LanguageModelModifier languageModelModifier = new LanguageModelModifier(dictionary);
-        //System.out.println("1 " + languageModelModifier.isWordInDictionary("Fareed"));
-        //languageModelModifier.addWordToDictionary("Fareed", "F AH N IY R TH");
-        //System.out.println("2 " + languageModelModifier.isWordInDictionary("Fareed"));
-
-        recognizer = SpeechRecognizerSetup.defaultSetup()
-                .setAcousticModel(new File(assetsDir, "en-us-ptm"))
-                .setDictionary(dictionary)
-                // .setRawLogDir(assetsDir) // To disable logging of raw audio comment out this call (takes a lot of space on the device)
-                .getRecognizer();
-        recognizer.addListener(this);
-
-        /* In your application you might not need to add all those searches.
-          They are added here for demonstration. You can leave just one.
-         */
-
-        // Phonetic search
-        File phoneticModel = new File(assetsDir, "en-phone.dmp");
-        recognizer.addAllphoneSearch(PHONE_SEARCH, phoneticModel);
+        super.setupRecognizer(assetsDir);
     }
 }
 

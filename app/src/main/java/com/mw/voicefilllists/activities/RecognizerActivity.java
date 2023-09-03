@@ -146,14 +146,14 @@ public class RecognizerActivity extends AppCompatActivity implements
     protected void setupRecognizer(File assetsDir) throws IOException {
         // The recognizer can be configured to perform multiple searches
         // of different kind and switch between them
-        File dictionary = new File(assetsDir, "cmudict-en-us.dict");
+        File dictionary = new File(assetsDir, "voxforge.dic");
         //LanguageModelModifier languageModelModifier = new LanguageModelModifier(dictionary);
         //System.out.println("1 " + languageModelModifier.isWordInDictionary("Fareed"));
         //languageModelModifier.addWordToDictionary("Fareed", "F AH N IY R TH");
         //System.out.println("2 " + languageModelModifier.isWordInDictionary("Fareed"));
 
         recognizer = SpeechRecognizerSetup.defaultSetup()
-                .setAcousticModel(new File(assetsDir, "en-us-ptm"))
+                .setAcousticModel(new File(assetsDir, "de-de-ptm"))
                 .setDictionary(dictionary)
                 // .setRawLogDir(assetsDir) // To disable logging of raw audio comment out this call (takes a lot of space on the device)
                 .getRecognizer();
@@ -164,7 +164,7 @@ public class RecognizerActivity extends AppCompatActivity implements
          */
 
         // Phonetic search
-        File phoneticModel = new File(assetsDir, "en-phone.dmp");
+        File phoneticModel = new File(assetsDir, "voxforge.phone");
         recognizer.addAllphoneSearch(PHONE_SEARCH, phoneticModel);
 
         /*
