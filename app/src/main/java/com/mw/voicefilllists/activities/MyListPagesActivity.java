@@ -2,8 +2,10 @@ package com.mw.voicefilllists.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mw.voicefilllists.DataListPageAdapter;
@@ -29,20 +31,23 @@ public class MyListPagesActivity extends AbstractViewAndEditDataActivity {
     protected void loadValueList() {
         loadingScreen.show();
         getValueListView().removeAllViews();
-        if (recyclerView == null) recyclerView = new RecyclerView(getValueListView().getContext());
+        if (recyclerView == null) recyclerView = new RecyclerView(this);
+        getValueListView().addView(recyclerView);
         MyListPagesActivity activity = this;
         new Thread(new Runnable() {
             @Override
             public void run() {
                 // load data
-                // TODO
-                // AppDatabase.getInstance(activity).dataListPageDAO()
-                List<DataListPageNameAndId> dataList = new ArrayList<>();
+                List<DataListPageNameAndId> dataList = AppDatabase
+                        .getInstance(activity)
+                        .dataListPageDAO()
+                        .getIdNamePairs();
 
                 // insert data into UI
                 runOnUiThread(() -> {
                     DataListPageAdapter adapter = new DataListPageAdapter(dataList, activity);
                     recyclerView.setAdapter(adapter);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(activity));
                     loadingScreen.dismiss();
                 });
             }

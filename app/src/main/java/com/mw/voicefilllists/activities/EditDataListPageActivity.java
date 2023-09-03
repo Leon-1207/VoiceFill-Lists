@@ -4,7 +4,7 @@ import com.mw.voicefilllists.R;
 
 public class EditDataListPageActivity extends DataListPageActivity {
     @Override
-    void saveOrUpdateToDatabaseInCurrentThread() {
+    void saveOrUpdateToDatabaseInCurrentThread(DataListPageActivity activity) {
         // TODO
     }
 

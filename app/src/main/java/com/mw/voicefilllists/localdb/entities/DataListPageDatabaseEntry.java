@@ -9,10 +9,8 @@ public class DataListPageDatabaseEntry {
     @PrimaryKey(autoGenerate = true)
     public int pageId;
 
-    @ColumnInfo(name = "page_name")
     public String pageName;
-
-    @ColumnInfo(name = "template_id")
+    
     public int templateId;
 
     public String data;

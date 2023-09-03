@@ -18,12 +18,12 @@ public abstract class DataListPageDAO {
     @Query("SELECT * FROM data_list_page WHERE pageId = :pageId")
     abstract List<DataListPageDatabaseEntry> getById(int pageId);
 
-    @Query("SELECT pageId, page_name FROM data_list_page")
-    abstract List<DataListPageNameAndId> getIdNamePairs();
+    @Query("SELECT pageId, pageName FROM data_list_page")
+    public abstract List<DataListPageNameAndId> getIdNamePairs();
 
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract void insert(DataListPageDatabaseEntry databaseEntry);
+    public abstract void insert(DataListPageDatabaseEntry databaseEntry);
 
     @Transaction
     @Update

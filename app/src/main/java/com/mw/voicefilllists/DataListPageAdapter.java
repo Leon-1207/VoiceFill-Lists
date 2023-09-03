@@ -1,9 +1,11 @@
 package com.mw.voicefilllists;
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,8 +31,8 @@ public class DataListPageAdapter extends RecyclerView.Adapter<DataListPageAdapte
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView nameTextView;
-        private Button optionsButton;
+        private final TextView nameTextView;
+        private final ImageButton optionsButton;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -58,6 +60,7 @@ public class DataListPageAdapter extends RecyclerView.Adapter<DataListPageAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         DataListPageNameAndId entry = dataList.get(position);
+        Log.e("SS", "" + entry.pageName);
         holder.nameTextView.setText(entry.pageName);
     }
 

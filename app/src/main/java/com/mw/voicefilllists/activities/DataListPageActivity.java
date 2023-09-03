@@ -88,13 +88,13 @@ public abstract class DataListPageActivity extends AppCompatActivity {
         updateSaveButtonState();
     }
 
-    abstract void saveOrUpdateToDatabaseInCurrentThread();
+    abstract void saveOrUpdateToDatabaseInCurrentThread(DataListPageActivity activity);
 
     private void onSaveButtonClicked() {
         loadingScreen.show();
         DataListPageActivity activity = this;
         new Thread(() -> {
-            saveOrUpdateToDatabaseInCurrentThread();
+            saveOrUpdateToDatabaseInCurrentThread(activity);
             runOnUiThread(() -> {
                 activity.loadingScreen.dismiss();
                 activity.finish();
@@ -107,6 +107,17 @@ public abstract class DataListPageActivity extends AppCompatActivity {
     }
 
     protected abstract void setupToolbar();
+
+    protected String getNameInputValue() {
+        return nameTextInput.getText().toString().trim();
+    }
+
+    protected Integer getSelectedTemplateId() {
+        for (DataListTemplateDatabaseEntry template : templates) {
+            if (template.name.equals(templateSpinner.getSelectedItem())) return template.templateId;
+        }
+        return null;
+    }
 
     public Spinner getTemplateSpinner() {
         return templateSpinner;
