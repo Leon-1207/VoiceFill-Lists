@@ -34,6 +34,7 @@ import java.util.Set;
 import edu.cmu.pocketsphinx.SpeechRecognizerSetup;
 
 public class MainActivity extends RecognizerActivity {
+    private static final String TEMPLATE_GRAMMAR_SEARCH = "template_grammar";
     private ClickDurationData menuClickDurationData;
     private ClickDurationData settingsClickDurationData;
     private DataListPage dataListPage = null;
@@ -244,6 +245,29 @@ public class MainActivity extends RecognizerActivity {
                 ((ValueFromGroupColumn) column).phonemeValues = phonemeValues;
             }
         }
+
+        // recognizer setup
+        recognizer = SpeechRecognizerSetup
+                .defaultSetup()
+                .setAcousticModel(new File(assetsDir, ACOUSTIC_MODEL))
+                .setDictionary(dictionaryForDataList)
+                .getRecognizer();
+
+        // add searches
+        recognizer.addGrammarSearch(TEMPLATE_GRAMMAR_SEARCH, getGrammarJsgfString(template));
+    }
+
+    private String getGrammarJsgfString(DataListTemplate template) {
+        // TODO
+
+        /*
+        String dynamicGrammar = "#JSGF V1.0;\n" +
+                "grammar dynamic;\n" +
+                "public <greeting> = hello Fareed ;\n" +
+                "public <command> = <greeting> ;";
+         */
+
+        return "";
     }
 }
 
