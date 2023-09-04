@@ -6,10 +6,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.mw.voicefilllists.DecoratedSpinnerAdapterWithAddOption;
 import com.mw.voicefilllists.LoadingScreen;
 import com.mw.voicefilllists.NothingSelectedSpinnerAdapter;
 import com.mw.voicefilllists.R;
@@ -70,7 +72,9 @@ public abstract class DataListPageActivity extends AppCompatActivity {
         for (DataListTemplateDatabaseEntry databaseEntry : templates) {
             adapter.add(databaseEntry.name);
         }
-        templateSpinner.setAdapter(new NothingSelectedSpinnerAdapter(adapter, R.layout.please_select_an_option_item, this));
+        SpinnerAdapter adapter1 = new NothingSelectedSpinnerAdapter(adapter, R.layout.please_select_an_option_item, this);
+        SpinnerAdapter adapter2 = new DecoratedSpinnerAdapterWithAddOption(this, adapter1);
+        templateSpinner.setAdapter(adapter2);
     }
 
     private void setupBottomButtonLine() {
