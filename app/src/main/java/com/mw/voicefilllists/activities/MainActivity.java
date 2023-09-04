@@ -17,6 +17,7 @@ import com.mw.voicefilllists.R;
 import com.mw.voicefilllists.localdb.AppDatabase;
 import com.mw.voicefilllists.localdb.DataConverter;
 import com.mw.voicefilllists.localdb.entities.PhonemeValueDatabaseEntry;
+import com.mw.voicefilllists.model.ColumnWithGrammar;
 import com.mw.voicefilllists.model.DataListColumn;
 import com.mw.voicefilllists.model.DataListPage;
 import com.mw.voicefilllists.model.DataListTemplate;
@@ -25,12 +26,12 @@ import com.mw.voicefilllists.model.ValueFromGroupColumn;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import edu.cmu.pocketsphinx.Hypothesis;
 import edu.cmu.pocketsphinx.SpeechRecognizerSetup;
 
 public class MainActivity extends RecognizerActivity {
@@ -252,22 +253,56 @@ public class MainActivity extends RecognizerActivity {
                 .setAcousticModel(new File(assetsDir, ACOUSTIC_MODEL))
                 .setDictionary(dictionaryForDataList)
                 .getRecognizer();
+        recognizer.addListener(this);
 
         // add searches
         recognizer.addGrammarSearch(TEMPLATE_GRAMMAR_SEARCH, getGrammarJsgfString(template));
+
+        recognizer.startListening(TEMPLATE_GRAMMAR_SEARCH);
+    }
+
+    @Override
+    public void onPartialResult(Hypothesis hypothesis) {
+        if (hypothesis == null) return;
+        // TODO parse string
     }
 
     private String getGrammarJsgfString(DataListTemplate template) {
-        // TODO
+        StringBuilder dynamicGrammar = new StringBuilder("#JSGF V1.0;\n" +
+                "grammar dynamic;\n");
 
-        /*
-        String dynamicGrammar = "#JSGF V1.0;\n" +
-                "grammar dynamic;\n" +
-                "public <greeting> = hello Fareed ;\n" +
-                "public <command> = <greeting> ;";
-         */
+        // gather all sub commands
+        Set<String> subCommands = new HashSet<>();  // use a set of strings to make sure that each value group is only inserted once as a grammar rule
+        for (DataListColumn column : template.columns) {
+            String str = getGrammarJsgfStringRowForColumn(column);
+            if (str != null) {
+                subCommands.add(str);
+            }
+        }
 
-        return "";
+        // add sub commands to grammar
+        for (String subCommand : subCommands) {
+            dynamicGrammar.append(subCommand);
+            dynamicGrammar.append("\n");
+        }
+
+        // add <command>
+        dynamicGrammar.append("public <command> = ");
+        for (DataListColumn column : template.columns) {
+            assert (column instanceof ColumnWithGrammar);
+            String commandPart = ((ColumnWithGrammar) column).getGrammarCommandName();
+            dynamicGrammar.append(commandPart);
+            dynamicGrammar.append(" ");
+        }
+        dynamicGrammar.append(";");
+
+        Log.d(LOG_TAG, dynamicGrammar.toString());
+        return dynamicGrammar.toString();
+    }
+
+    private String getGrammarJsgfStringRowForColumn(DataListColumn column) {
+        assert (column instanceof ColumnWithGrammar);
+        return ((ColumnWithGrammar) column).getGrammarJsgfRow();
     }
 }
 
