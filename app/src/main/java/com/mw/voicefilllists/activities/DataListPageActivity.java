@@ -2,29 +2,23 @@ package com.mw.voicefilllists.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.mw.voicefilllists.DecoratedSpinnerAdapterWithAddOption;
 import com.mw.voicefilllists.LoadingScreen;
-import com.mw.voicefilllists.NothingSelectedSpinnerAdapter;
 import com.mw.voicefilllists.R;
 import com.mw.voicefilllists.SpinnerHelper;
 import com.mw.voicefilllists.localdb.AppDatabase;
 import com.mw.voicefilllists.localdb.entities.DataListTemplateDatabaseEntry;
 
-import java.lang.reflect.Method;
 import java.util.List;
 
 public abstract class DataListPageActivity extends AppCompatActivity {
