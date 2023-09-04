@@ -1,6 +1,7 @@
 package com.mw.voicefilllists;
 
 import com.mw.voicefilllists.model.DataListPage;
+import com.mw.voicefilllists.model.PhonemeValue;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -89,5 +90,28 @@ public class DictionaryModifier {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void copyFile(File src, File dst) throws IOException {
+        InputStream in = new FileInputStream(src);
+        try {
+            OutputStream out = new FileOutputStream(dst);
+            try {
+                // Transfer bytes from in to out
+                byte[] buf = new byte[1024];
+                int len;
+                while ((len = in.read(buf)) > 0) {
+                    out.write(buf, 0, len);
+                }
+            } finally {
+                out.close();
+            }
+        } finally {
+            in.close();
+        }
+    }
+
+    public void addWordToDictionary(PhonemeValue phonemeValue) {
+        addWordToDictionary(phonemeValue.getLabel(), String.join(" ", phonemeValue.getPhoneticTranscription()));
     }
 }

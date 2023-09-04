@@ -30,4 +30,8 @@ public class PhonemeValue {
     public int getId() {
         return id;
     }
+
+    public String getDictionaryEntry() {
+        return label + " " + String.join(" ", phoneticTranscription);
+    }
 }

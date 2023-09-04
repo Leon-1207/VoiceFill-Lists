@@ -3,12 +3,10 @@ package com.mw.voicefilllists.activities;
 import static android.widget.Toast.makeText;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -24,8 +22,8 @@ import edu.cmu.pocketsphinx.SpeechRecognizerSetup;
 
 public class RecognizerActivity extends AppCompatActivity implements
         RecognitionListener {
-
     public static final String BASE_DICTIONARY = "voxforge.dic";
+    public static final String ACOUSTIC_MODEL = "de-de-ptm";
 
     protected static final String LOG_TAG = "RecognizerActivity";
     protected static final String PHONE_SEARCH = "phones";
@@ -160,7 +158,7 @@ public class RecognizerActivity extends AppCompatActivity implements
         //System.out.println("2 " + languageModelModifier.isWordInDictionary("Fareed"));
 
         recognizer = SpeechRecognizerSetup.defaultSetup()
-                .setAcousticModel(new File(assetsDir, "de-de-ptm"))
+                .setAcousticModel(new File(assetsDir, ACOUSTIC_MODEL))
                 .setDictionary(dictionary)
                 // .setRawLogDir(assetsDir) // To disable logging of raw audio comment out this call (takes a lot of space on the device)
                 .getRecognizer();
