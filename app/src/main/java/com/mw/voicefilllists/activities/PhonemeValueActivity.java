@@ -24,6 +24,8 @@ public abstract class PhonemeValueActivity extends RecognizerActivity {
     
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.startAsyncSetup();
+
         setContentView(R.layout.activity_value_group_entry);
 
         // create input for phonetic transcription

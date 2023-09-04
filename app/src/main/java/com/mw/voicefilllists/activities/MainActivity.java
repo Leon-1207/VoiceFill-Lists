@@ -112,6 +112,9 @@ public class MainActivity extends RecognizerActivity {
         findViewById(R.id.noListSelectedContent).setVisibility(isListSelected ? View.GONE : View.VISIBLE);
         findViewById(R.id.listSelectedContent).setVisibility(isListSelected ? View.VISIBLE : View.GONE);
         if (isListSelected) {
+            // load speech recognizer
+            this.startAsyncSetup();
+
             // insert page and template name into button
             TextView pageTemplateTextView = findViewById(R.id.templateNameTextView);
             pageTemplateTextView.setText(dataListPage.getTemplate().name);
@@ -193,6 +196,9 @@ public class MainActivity extends RecognizerActivity {
 
     @Override
     protected void setupRecognizer(File assetsDir) throws IOException {
+        // create recognizer for current data list
+
+        // setup dictionary for active data list
         // TODO
         super.setupRecognizer(assetsDir);
     }

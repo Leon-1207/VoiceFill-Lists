@@ -25,6 +25,8 @@ import edu.cmu.pocketsphinx.SpeechRecognizerSetup;
 public class RecognizerActivity extends AppCompatActivity implements
         RecognitionListener {
 
+    public static final String BASE_DICTIONARY = "voxforge.dic";
+
     protected static final String LOG_TAG = "RecognizerActivity";
     protected static final String PHONE_SEARCH = "phones";
     protected static final String KWS_SEARCH = "weakup";
@@ -46,8 +48,12 @@ public class RecognizerActivity extends AppCompatActivity implements
             this.requestPermissions(permissions, PERMISSIONS_REQUEST_RECORD_AUDIO);
             return;
         }
-        // Recognizer initialization is a time-consuming and it involves IO,
-        // so we execute it in async task
+    }
+
+    /*
+     * Recognizer initialization is a time-consuming and it involves IO, so we execute it in async task
+     */
+    public void startAsyncSetup() {
         new SetupTask(this).execute();
     }
 
@@ -146,7 +152,8 @@ public class RecognizerActivity extends AppCompatActivity implements
     protected void setupRecognizer(File assetsDir) throws IOException {
         // The recognizer can be configured to perform multiple searches
         // of different kind and switch between them
-        File dictionary = new File(assetsDir, "voxforge.dic");
+        File dictionary = new File(assetsDir, BASE_DICTIONARY);
+
         //LanguageModelModifier languageModelModifier = new LanguageModelModifier(dictionary);
         //System.out.println("1 " + languageModelModifier.isWordInDictionary("Fareed"));
         //languageModelModifier.addWordToDictionary("Fareed", "F AH N IY R TH");
