@@ -1,13 +1,18 @@
 package com.mw.voicefilllists.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,9 +20,11 @@ import com.mw.voicefilllists.DecoratedSpinnerAdapterWithAddOption;
 import com.mw.voicefilllists.LoadingScreen;
 import com.mw.voicefilllists.NothingSelectedSpinnerAdapter;
 import com.mw.voicefilllists.R;
+import com.mw.voicefilllists.SpinnerHelper;
 import com.mw.voicefilllists.localdb.AppDatabase;
 import com.mw.voicefilllists.localdb.entities.DataListTemplateDatabaseEntry;
 
+import java.lang.reflect.Method;
 import java.util.List;
 
 public abstract class DataListPageActivity extends AppCompatActivity {
@@ -26,9 +33,35 @@ public abstract class DataListPageActivity extends AppCompatActivity {
     private Spinner templateSpinner;
     private EditText nameTextInput;
     protected String initialNameValue;
+    private Integer initialTemplateId = null;
+    private SpinnerHelper spinnerHelper;
+
+    private final ActivityResultLauncher<Intent> createDataActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                initialTemplateId = null;
+                if (result.getResultCode() == RESULT_OK) {
+                    Intent data = result.getData();
+                    if (data != null) {
+                        if (data.hasExtra("newDataListTemplateId")) {
+                            initialTemplateId = data.getIntExtra("newDataListTemplateId", -1);
+                            loadDataAndStartSetup();
+                        }
+                    }
+                }
+            }
+    );
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        spinnerHelper = new SpinnerHelper() {
+            @Override
+            protected void onClickedCreateNewEntryOption() {
+                Intent intent = new Intent(DataListPageActivity.this, CreateDataListTemplateActivity.class);
+                createDataActivityResultLauncher.launch(intent);
+            }
+        };
+
         super.onCreate(savedInstanceState);
         this.loadingScreen = new LoadingScreen(this);
 
@@ -72,9 +105,21 @@ public abstract class DataListPageActivity extends AppCompatActivity {
         for (DataListTemplateDatabaseEntry databaseEntry : templates) {
             adapter.add(databaseEntry.name);
         }
-        SpinnerAdapter adapter1 = new NothingSelectedSpinnerAdapter(adapter, R.layout.please_select_an_option_item, this);
-        SpinnerAdapter adapter2 = new DecoratedSpinnerAdapterWithAddOption(this, adapter1);
-        templateSpinner.setAdapter(adapter2);
+        spinnerHelper.setupAdapter(this, adapter, templateSpinner);
+
+        // select initial template
+        if (initialTemplateId != null) {
+            int index = 0;
+            for (DataListTemplateDatabaseEntry databaseEntry : templates) {
+                if (databaseEntry.templateId == initialTemplateId) {
+                    int position = index + 1;
+                    templateSpinner.setSelection(position, false);
+                    spinnerHelper.hideSpinnerDropDown(templateSpinner);
+                    break;
+                }
+                index += 1;
+            }
+        }
     }
 
     private void setupBottomButtonLine() {

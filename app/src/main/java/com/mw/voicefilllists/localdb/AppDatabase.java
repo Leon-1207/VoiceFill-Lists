@@ -74,14 +74,14 @@ public abstract class AppDatabase extends RoomDatabase {
         return result;
     }
 
-    public void saveDataListTemplate(Context context, DataListTemplate dataListTemplate) throws Exception {
+    public int saveDataListTemplate(Context context, DataListTemplate dataListTemplate) throws Exception {
         DataListTemplateDAO dao = AppDatabase.getInstance(context).dataListTemplateDAO();
         if (dataListTemplate.hasTemplateId()) {
             // is already in database --> UPDATE
-            dao.updateTemplateWithColumns(dataListTemplate);
+            return (int) dao.updateTemplateWithColumns(dataListTemplate);
         } else {
             // no ID --> is not in database --> INSERT
-            dao.insertTemplateWithColumns(dataListTemplate);
+            return (int) dao.insertTemplateWithColumns(dataListTemplate);
         }
     }
 

@@ -123,28 +123,29 @@ public abstract class DataListTemplateActivity extends AppCompatActivity {
             public void run() {
                 try {
                     // save to database
-                    AppDatabase.getInstance(activity).saveDataListTemplate(activity, dataListTemplate);
+                    int id = AppDatabase.getInstance(activity).saveDataListTemplate(activity, dataListTemplate);
 
                     // finish activity
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             activity.loadingScreen.dismiss();
-                            activity.finish();
+                            activity.onSavedData(id);
                         }
                     });
                 } catch (Exception exception) {
                     // finish activity
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            activity.loadingScreen.dismiss();
-                            Toast.makeText(activity, exception.toString(), Toast.LENGTH_LONG).show();
-                        }
+                    runOnUiThread(() -> {
+                        activity.loadingScreen.dismiss();
+                        Toast.makeText(activity, exception.toString(), Toast.LENGTH_LONG).show();
                     });
                 }
             }
         }).start();
+    }
+
+    protected void onSavedData(int templateId) {
+        this.finish();
     }
 
     private void updateSaveButtonState() {

@@ -4,10 +4,13 @@ import android.content.Context;
 import android.database.DataSetObserver;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
-public class DecoratedSpinnerAdapterWithAddOption implements SpinnerAdapter {
+import java.lang.reflect.Method;
+
+public abstract class DecoratedSpinnerAdapterWithAddOption implements SpinnerAdapter {
     private final SpinnerAdapter baseAdapter;
     private final Context context;
 
@@ -24,15 +27,11 @@ public class DecoratedSpinnerAdapterWithAddOption implements SpinnerAdapter {
             // You can customize the view for this option as needed
             // Here, we'll use a simple text view
             // Replace R.layout.add_new_entry_layout with your custom layout if needed
-            View addNewEntryView = View.inflate(context, R.layout.please_select_an_option_item, null);
+            View addNewEntryView = View.inflate(context, R.layout.create_entry_spinner_item, null);
 
             // Handle the click event for the "Add new entry" option
-            addNewEntryView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Start an intent when the option is clicked
-                    
-                }
+            addNewEntryView.setOnClickListener(v -> {
+                this.onClickedCreateNewEntryOption();
             });
 
             return addNewEntryView;
@@ -41,6 +40,8 @@ public class DecoratedSpinnerAdapterWithAddOption implements SpinnerAdapter {
             return baseAdapter.getDropDownView(position, convertView, parent);
         }
     }
+
+    public abstract void onClickedCreateNewEntryOption();
 
     @Override
     public void registerDataSetObserver(DataSetObserver dataSetObserver) {
