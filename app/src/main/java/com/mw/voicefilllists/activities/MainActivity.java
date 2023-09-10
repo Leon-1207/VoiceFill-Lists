@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mw.voicefilllists.DictionaryModifier;
+import com.mw.voicefilllists.JSGFParser;
 import com.mw.voicefilllists.LoadingScreen;
 import com.mw.voicefilllists.R;
 import com.mw.voicefilllists.localdb.AppDatabase;
@@ -36,12 +37,15 @@ import edu.cmu.pocketsphinx.SpeechRecognizerSetup;
 
 public class MainActivity extends RecognizerActivity {
     private static final String TEMPLATE_GRAMMAR_SEARCH = "template_grammar";
+    private static final String WAKE_UP_SEARCH = "wakeup";
     private ClickDurationData menuClickDurationData;
     private ClickDurationData settingsClickDurationData;
     private DataListPage dataListPage = null;
     private LoadingScreen loadingScreen;
     private boolean loadingDataList = false;
     private boolean loadingRecognizer = false;
+    private String jsgfGrammar;
+    private final String wakeUpKeyphrase = "hey";
 
     private abstract static class ClickDurationData {
         public final Handler handler;
@@ -256,15 +260,65 @@ public class MainActivity extends RecognizerActivity {
         recognizer.addListener(this);
 
         // add searches
-        recognizer.addGrammarSearch(TEMPLATE_GRAMMAR_SEARCH, getGrammarJsgfString(template));
+        this.jsgfGrammar = getGrammarJsgfString(template);
+        recognizer.addGrammarSearch(TEMPLATE_GRAMMAR_SEARCH, this.jsgfGrammar);
 
-        recognizer.startListening(TEMPLATE_GRAMMAR_SEARCH);
+        /*
+        String menuGrammar = "#JSGF V1.0;\n" +
+                "grammar menu;\n" +
+                "public <command> = " + addEntryCommand + ";";
+        recognizer.addGrammarSearch();
+        */
+
+        recognizer.addKeyphraseSearch(WAKE_UP_SEARCH, wakeUpKeyphrase);
+
+        switchSearch(WAKE_UP_SEARCH);
+    }
+
+    private void switchSearch(String searchName) {
+        recognizer.stop();
+        // If we are not spotting, start listening with timeout (10000 ms or 10 seconds).
+        if (searchName.equals(WAKE_UP_SEARCH)) {
+            recognizer.startListening(searchName, 5000);
+        } else {
+            recognizer.startListening(searchName, 5000);
+        }
+        ((TextView) findViewById(R.id.stateTextView)).setText(searchName);
+    }
+
+    @Override
+    public void onTimeout() {
+        switchSearch(WAKE_UP_SEARCH);
     }
 
     @Override
     public void onPartialResult(Hypothesis hypothesis) {
-        if (hypothesis == null) return;
-        // TODO parse string
+        if (hypothesis == null)
+            return;
+
+        String recognizedString = hypothesis.getHypstr();
+        Log.d(LOG_TAG, recognizedString);
+        if (recognizedString.equals(wakeUpKeyphrase))
+            switchSearch(TEMPLATE_GRAMMAR_SEARCH);
+        else {
+            if (JSGFParser.check(recognizedString, jsgfGrammar)) {
+                onSuccessfulCommand(recognizedString);
+            }
+        }
+    }
+
+    @Override
+    public void onEndOfSpeech() {
+        if (!recognizer.getSearchName().equals(WAKE_UP_SEARCH))
+            switchSearch(WAKE_UP_SEARCH);
+    }
+
+    @Override
+    public void onBeginningOfSpeech() {
+    }
+
+    @Override
+    public void onResult(Hypothesis hypothesis) {
     }
 
     private String getGrammarJsgfString(DataListTemplate template) {
@@ -303,6 +357,11 @@ public class MainActivity extends RecognizerActivity {
     private String getGrammarJsgfStringRowForColumn(DataListColumn column) {
         assert (column instanceof ColumnWithGrammar);
         return ((ColumnWithGrammar) column).getGrammarJsgfRow();
+    }
+
+    private void onSuccessfulCommand(String command) {
+        Log.d(LOG_TAG, "---> " + command);
+        switchSearch(WAKE_UP_SEARCH);
     }
 }
 
