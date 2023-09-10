@@ -112,10 +112,13 @@ public class JSGFParser {
         Map<String, String> subcommandMap = getSubcommandMap(jsgfGrammar);
 
         Pattern subcommandPattern = Pattern.compile("<(\\w+?)>");
-        Matcher subcommandMatcher = subcommandPattern.matcher(jsgfGrammar);
+        String mainRule = extractCommandRule(jsgfGrammar);
+        assert mainRule != null;
+        Matcher subcommandMatcher = subcommandPattern.matcher(mainRule);
 
         while (subcommandMatcher.find()) {
             String subcommand = subcommandMatcher.group(1);
+            assert subcommand != null;
             if (!subcommand.equals("command")) {
                 String subcommandPatternString = preprocessGrammar(subcommandMap.get(subcommand), true);
                 subcommandPatternString = subcommandPatternString.substring(1, subcommandPatternString.length() - 1);
@@ -123,8 +126,10 @@ public class JSGFParser {
                 Pattern pattern = Pattern.compile(subcommandPatternString);
                 Matcher matcher = pattern.matcher(inputString);
 
-                while (matcher.find()) {
-                    matches.add(matcher.group());
+                if (matcher.find()) {
+                    String match = matcher.group();
+                    matches.add(match);
+                    inputString = inputString.replaceFirst(match, "").trim(); // remove matches data from inputString
                 }
             }
         }
