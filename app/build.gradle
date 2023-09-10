@@ -24,6 +24,7 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    testImplementation 'org.testng:testng:6.9.6'
 
     // Room DB
     def room_version = "2.5.2"
