@@ -107,68 +107,28 @@ public class JSGFParser {
         return map;
     }
 
-    public static Map<String, List<String>> findSubcommandMatches(String inputString, String jsgfGrammar) {
-        Map<String, List<String>> matches = new HashMap<>();
-
+    public static List<String> findSubcommandMatches(String inputString, String jsgfGrammar) {
+        List<String> matches = new ArrayList<>();
         Map<String, String> subcommandMap = getSubcommandMap(jsgfGrammar);
 
-        Pattern pattern = Pattern.compile("<(\\w+?)>");
-        Matcher matcher = pattern.matcher(jsgfGrammar);
+        Pattern subcommandPattern = Pattern.compile("<(\\w+?)>");
+        Matcher subcommandMatcher = subcommandPattern.matcher(jsgfGrammar);
 
-        while (matcher.find()) {
-            String subcommand = matcher.group(1);
+        while (subcommandMatcher.find()) {
+            String subcommand = subcommandMatcher.group(1);
             if (!subcommand.equals("command")) {
-                String subcommandPattern = preprocessGrammar(subcommandMap.get(subcommand), true);
-                subcommandPattern = subcommandPattern.substring(1, subcommandPattern.length() - 1);
+                String subcommandPatternString = preprocessGrammar(subcommandMap.get(subcommand), true);
+                subcommandPatternString = subcommandPatternString.substring(1, subcommandPatternString.length() - 1);
 
-                List<String> subcommandMatches = findMatches(inputString, subcommandPattern);
-                matches.put(subcommand, subcommandMatches);
+                Pattern pattern = Pattern.compile(subcommandPatternString);
+                Matcher matcher = pattern.matcher(inputString);
+
+                while (matcher.find()) {
+                    matches.add(matcher.group());
+                }
             }
         }
 
         return matches;
-    }
-
-    private static List<String> findMatches(String inputString, String pattern) {
-        List<String> matches = new ArrayList<>();
-
-        Pattern r = Pattern.compile(pattern);
-        Matcher matcher = r.matcher(inputString);
-
-        while (matcher.find()) {
-            matches.add(matcher.group());
-        }
-
-        return matches;
-    }
-
-    public static List<String> parseData(String inputString, String jsgfGrammar) {
-        if (check(inputString, jsgfGrammar)) {
-            // matches --> extract data
-            String commandRule = extractCommandRule(jsgfGrammar);
-            List<String> subcommands = new ArrayList<>();
-            Pattern pattern = Pattern.compile("<(\\w+?)>");
-            Matcher matcher = pattern.matcher(commandRule);
-            while (matcher.find()) {
-                String subcommand = matcher.group(1);
-                subcommands.add(subcommand);
-            }
-
-            List<String> result = new ArrayList<>();
-            Map<String, List<String>> subcommandMatches = findSubcommandMatches(inputString, jsgfGrammar);
-            Map<String, Integer> matchesNextIndex = new HashMap<>();
-            for (String subcommand : subcommands) matchesNextIndex.put(subcommand, 0);
-            for (String subcommand : subcommands) {
-                List<String> matchesForSubcommand = subcommandMatches.get(subcommand);
-                int matchIndex = matchesNextIndex.get(subcommand);
-                assert matchesForSubcommand != null;
-                result.add(matchesForSubcommand.get(matchIndex));
-                matchesNextIndex.put(subcommand, matchIndex + 1);
-            }
-
-            return result;
-        } else {
-            return null;
-        }
     }
 }

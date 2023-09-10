@@ -72,7 +72,7 @@ public class JSGFParserTest extends TestCase {
         assertTrue(JSGFParser.check("Max code plan", grammar));
         assertTrue(JSGFParser.check("Leon plan debug", grammar));
 
-        Map<String, List<String>> substringMatches = JSGFParser.findSubcommandMatches("Leon plan debug", grammar);
+        List<String> substringMatches = JSGFParser.findSubcommandMatches("Leon plan debug", grammar);
         System.out.println(substringMatches);
     }
 
@@ -80,12 +80,12 @@ public class JSGFParserTest extends TestCase {
         String grammar = "#JSGF V1.0;\n" +
                 "grammar dynamic;\n" +
                 "public <name> = Tim | Max | Leon;\n" +
-                "public <task> = code | debug | plan;\n" +
+                "public <task> = code | debug code | plan meeting;\n" +
                 "public <name2> = Aaron | Leon;\n" +
                 "public <command> = <name> <task> <name2>;";
 
         for (String name1 : Arrays.asList("Tim", "Max", "Leon")) {
-            for (String task : Arrays.asList("code", "debug", "plan")) {
+            for (String task : Arrays.asList("code", "debug code", "plan meeting")) {
                 for (String name2 : Arrays.asList("Aaron", "Leon")) {
                     System.out.println(name1 + " " + task + " " + name2 + " ---> " + JSGFParser.findSubcommandMatches(name1 + " " + task + " " + name2, grammar));
                     assertTrue(JSGFParser.check(name1 + " " + task + " " + name2, grammar));
@@ -105,10 +105,9 @@ public class JSGFParserTest extends TestCase {
         for (String name1 : Arrays.asList("Tim", "Max", "Leon")) {
             for (String task : Arrays.asList("code", "debug", "plan")) {
                 for (String name2 : Arrays.asList("Aaron", "Leon")) {
-                    assertEquals(Arrays.asList(name1, task, name2), JSGFParser.parseData(name1 + " " + task + " " + name2, grammar));
+                    assertEquals(Arrays.asList(name1, task, name2), JSGFParser.findSubcommandMatches(name1 + " " + task + " " + name2, grammar));
                 }
             }
         }
-        assert JSGFParser.parseData("Leon plan", grammar) == null;
     }
 }
