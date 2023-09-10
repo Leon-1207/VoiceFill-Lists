@@ -1,10 +1,7 @@
 package com.mw.voicefilllists;
 
-import android.util.Log;
-
 import junit.framework.TestCase;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -54,4 +51,15 @@ public class JSGFParserTest extends TestCase {
             expectedOutput.put("command", "<state> the (door|window)");
         }
     }
+
+    public void testRemoveSubcommand() {
+        String result = JSGFParser.removeSubcommand("public <state> = open | close; public <command> = <state> the (door|window);", "state");
+        assertEquals("public <command> = <state> the (door|window);", result);
+    }
+
+    public void testExtractCommandRule() {
+        String result = JSGFParser.extractCommandRule("public <command> = (open | close) the (door|window);");
+        assertEquals("(open | close) the (door|window)", result);
+    }
+
 }
