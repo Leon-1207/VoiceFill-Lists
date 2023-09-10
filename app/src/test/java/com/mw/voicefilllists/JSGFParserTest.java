@@ -62,4 +62,53 @@ public class JSGFParserTest extends TestCase {
         assertEquals("(open | close) the (door|window)", result);
     }
 
+    public void testFindSubcommandMatches() {
+        String grammar = "#JSGF V1.0;\n" +
+                "grammar dynamic;\n" +
+                "public <name> = Tim | Max | Leon;\n" +
+                "public <task> = code | debug | plan;\n" +
+                "public <command> = <name> <task> <task>;";
+
+        assertTrue(JSGFParser.check("Max code plan", grammar));
+        assertTrue(JSGFParser.check("Leon plan debug", grammar));
+
+        Map<String, List<String>> substringMatches = JSGFParser.findSubcommandMatches("Leon plan debug", grammar);
+        System.out.println(substringMatches);
+    }
+
+    public void testCheck2() {
+        String grammar = "#JSGF V1.0;\n" +
+                "grammar dynamic;\n" +
+                "public <name> = Tim | Max | Leon;\n" +
+                "public <task> = code | debug | plan;\n" +
+                "public <name2> = Aaron | Leon;\n" +
+                "public <command> = <name> <task> <name2>;";
+
+        for (String name1 : Arrays.asList("Tim", "Max", "Leon")) {
+            for (String task : Arrays.asList("code", "debug", "plan")) {
+                for (String name2 : Arrays.asList("Aaron", "Leon")) {
+                    System.out.println(name1 + " " + task + " " + name2 + " ---> " + JSGFParser.findSubcommandMatches(name1 + " " + task + " " + name2, grammar));
+                    assertTrue(JSGFParser.check(name1 + " " + task + " " + name2, grammar));
+                }
+            }
+        }
+    }
+
+    public void testParseData() {
+        String grammar = "#JSGF V1.0;\n" +
+                "grammar dynamic;\n" +
+                "public <name> = Tim | Max | Leon;\n" +
+                "public <task> = code | debug | plan;\n" +
+                "public <name2> = Aaron | Leon;\n" +
+                "public <command> = <name> <task> <name2>;";
+
+        for (String name1 : Arrays.asList("Tim", "Max", "Leon")) {
+            for (String task : Arrays.asList("code", "debug", "plan")) {
+                for (String name2 : Arrays.asList("Aaron", "Leon")) {
+                    assertEquals(Arrays.asList(name1, task, name2), JSGFParser.parseData(name1 + " " + task + " " + name2, grammar));
+                }
+            }
+        }
+        assert JSGFParser.parseData("Leon plan", grammar) == null;
+    }
 }
